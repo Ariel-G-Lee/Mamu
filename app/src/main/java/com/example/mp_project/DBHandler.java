@@ -113,12 +113,12 @@ public class DBHandler {
 
     /**
      * key값을 이용해 해당 메모정보를 반환.
-     * @param key (String) PK값. Type에 유의! int 아님.
+     * @param key (int)
      * @return Map<String,String> 메모 정보가 담겨져 있음. HashMap.
      */
-    public Map<String,String> selectOne(String key){
-        String selection = dbHelper.COLUMN_ID+"=? AND "+dbHelper.COLUMN_USEYN +"=?";
-        Cursor cursor = db.query(TableName, null, selection, new String[]{key,"Y"}, null, null, null);
+    public Map<String,String> selectOne(int key){
+        String sql = "SELECT * FROM "+TableName+" WHERE "+dbHelper.COLUMN_ID+"="+key+" AND "+dbHelper.COLUMN_USEYN+"='Y'";
+        Cursor cursor = db.rawQuery(sql,null);
 
         if(!cursor.moveToFirst()){
             return null;
