@@ -18,7 +18,7 @@
 
         <!--메모 저장 실행 버튼-->
         <Button
-            android:id="@+id/btnEdit"
+            android:id="@+id/btnSave"
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -80,7 +80,7 @@
         android:layout_marginTop="20dp">
         <!-- 상세 메모 작성-->
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/editMemo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
