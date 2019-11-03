@@ -18,13 +18,12 @@ import androidx.appcompat.widget.Toolbar;
 
 
 public class MemoActivity extends AppCompatActivity {
-
     Button editBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_memo);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         
