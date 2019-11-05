@@ -8,12 +8,16 @@ import android.net.Uri;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * Utils class - 이미지 관련
+ * @author 김희주
+ */
 public class Utils {
     Context context;
+
     Utils(Context context){
         this.context = context;
     }
-
 
     //Bitmap을 ByteArray로 변경(DB에 저장할 때 사용)
     public byte[] BitmapToByteArray(Bitmap bitmap){
