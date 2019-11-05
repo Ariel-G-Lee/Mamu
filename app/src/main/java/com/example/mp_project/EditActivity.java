@@ -33,6 +33,7 @@ import java.io.InputStream;
 
 public class EditActivity extends AppCompatActivity {
     DBHandler handler;
+    Utils utils;
     Button saveBtn;
     Button imgBtn;
     EditText editTitle;
@@ -69,6 +70,9 @@ public class EditActivity extends AppCompatActivity {
         //handler open
         handler = DBHandler.open(this);
 
+        //utils
+        utils = new Utils(getApplicationContext());
+
         //key 값 수신
         Intent intent = getIntent();
         final int key = intent.getExtras().getInt("key");
@@ -86,7 +90,7 @@ public class EditActivity extends AppCompatActivity {
             editURL.setText(memo.getAsString("YoutubeUrl"));
             editMemo.setText(memo.getAsString("MemoContents"));
             bytearrays = memo.getAsByteArray("Image");
-            imgView.setImageBitmap(ByteArraytoBitmap(bytearrays));
+            imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
         }
 
         //저장버튼
@@ -108,8 +112,11 @@ public class EditActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "수정되었습니다."+tmp, Toast.LENGTH_SHORT).show();
                 }
 
-                //메인화면으로 돌아가기
-                startActivity(new Intent(EditActivity.this,MainActivity.class));
+                //MemoActivity로 이동
+                Intent i = new Intent(EditActivity.this, MemoActivity.class);
+                i.putExtra("key", key); //key값 전달
+                i.putExtra("date", date);
+                startActivity(i);
             }
         });
 
@@ -139,11 +146,11 @@ public class EditActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(data.getData());
-                bitmap = resize(data.getData(),600);
+                bitmap = utils.resize(data.getData(),600);
                 inputStream.close();
 
                 imgView.setImageBitmap(bitmap);
-                bytearrays= BitmapToByteArray(bitmap);
+                bytearrays= utils.BitmapToByteArray(bitmap);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -178,48 +185,5 @@ public class EditActivity extends AppCompatActivity {
         startActivityForResult(chooseIntent,PICK_IMAGE);
     }
 
-    //Bitmap을 ByteArray로 변경(DB에 저장할 때 사용)
-    private byte[] BitmapToByteArray(Bitmap bitmap){
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
-        return stream.toByteArray();
-    }
 
-    //ByteArrray를 Bitmap으로 변경(이미지뷰에 사용)
-    private Bitmap ByteArraytoBitmap(byte[] bytearray){
-        return BitmapFactory.decodeByteArray(bytearray,0,bytearray.length);
-    }
-
-    //Bitmap 리사이징 메소드
-    private Bitmap resize(Uri uri, int size){
-        Bitmap resizeBitmap = null;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-
-        try {
-            options.inJustDecodeBounds = true;  //메모리할당 없이 width, height, mimetype 셋팅
-            BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),null,options);
-
-            int width = options.outWidth;
-            int height = options.outHeight;
-            int samplesize = 1;
-
-            while(true){
-                if((width/2 < size) && (height/2 < size)){
-                    break;
-                }
-                width /= 2;
-                height /= 2;
-                samplesize *= 2;
-            }
-
-            options.inSampleSize = samplesize;
-            options.inJustDecodeBounds = false;
-            resizeBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri),null,options);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return resizeBitmap;
-    }
 }
