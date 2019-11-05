@@ -114,17 +114,18 @@ public class DBHandler {
     /**
      * 날짜정보를 이용해 해당 날짜의 메모를 전부 select
      * @param date (String)
-     * @return 성공: ArrayList<ContentValues> , 실패: null
+     * @return ArrayList<ContentValues>
      */
     public ArrayList<ContentValues> select(String date){
+        ArrayList<ContentValues> list= new ArrayList<>();
+
         String selection = dbHelper.COLUMN_DATE+"=? AND "+dbHelper.COLUMN_USEYN +"=?";
         Cursor cursor = db.query(TableName, null, selection, new String[]{date,"Y"}, null, null, null);
 
         if(!cursor.moveToFirst()){
-            return null;
+            return list;
         }
 
-        ArrayList<ContentValues> list= new ArrayList<>();
         while(true){
             ContentValues tmp = new ContentValues();
 
@@ -148,14 +149,14 @@ public class DBHandler {
      * @return ContentValues 메모 정보가 담겨져 있음. HashMap.
      */
     public ContentValues selectOne(int key){
+        ContentValues values = new ContentValues();
+
         String sql = "SELECT * FROM "+TableName+" WHERE "+dbHelper.COLUMN_ID+"="+key+" AND "+dbHelper.COLUMN_USEYN+"='Y'";
         Cursor cursor = db.rawQuery(sql,null);
 
         if(!cursor.moveToFirst()){
-            return null;
+            return values;
         }
-
-        ContentValues values = new ContentValues();
 
         values.put("Memo_ID",cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
         values.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
