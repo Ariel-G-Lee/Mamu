@@ -5,10 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * DB 데이터 관리 클래스
@@ -42,14 +42,30 @@ public class DBHandler {
      * DB에 새로운 데이터를 insert함.
      * 이 때, values에는 UseYN 정보와 PK가 포함될 필요 없고 내부적으로 처리된다.
      * @param values (ContentValues - 여기서 키값은 어트리뷰트명과 동일)
-     * @return 성공: true, 실패: false
+     * @return 성공: 삽입된 열의 번호(long), 실패: -1
      */
-    public boolean insert(ContentValues values){
+    public long insert(ContentValues values){
         values.put(dbHelper.COLUMN_USEYN,"Y");
-        if(db.insertOrThrow(TableName,null,values)<0){
-            return false;
-        }
-        return true;
+
+        String sql = "INSERT INTO " + TableName+" ("
+//                + dbHelper.COLUMN_ID +","
+                + dbHelper.COLUMN_DATE +","
+                + dbHelper.COLUMN_CONTENTS + ","
+                + dbHelper.COLUMN_TITLE + ","
+                + dbHelper.COLUMN_YTBURL + ","
+                + dbHelper.COLUMN_IMG + ","
+                + dbHelper.COLUMN_USEYN+ ") VALUES(?,?,?,?,?,?)";
+
+        SQLiteStatement insertStmt = db.compileStatement(sql);
+        insertStmt.clearBindings();
+        insertStmt.bindString(1,values.getAsString("CreationDate"));
+        insertStmt.bindString(2,values.getAsString("MemoContents"));
+        insertStmt.bindString(3,values.getAsString("MemoTitle"));
+        insertStmt.bindString(4,values.getAsString("YoutubeUrl"));
+        insertStmt.bindBlob(5,values.getAsByteArray("Image"));
+        insertStmt.bindString(6,values.getAsString("UseYN"));
+
+        return insertStmt.executeInsert();
     }
 
     /**
@@ -73,19 +89,34 @@ public class DBHandler {
      * 한 번에 한 튜플만 수정할 수 있다.
      * @param key (int) PK 값
      * @param values (ContentValues- 여기서 키값은 어트리뷰트명과 동일) 업데이트할 정보들.
-     * @return 성공: 수정된 열의 번호, 실패: -1
+     * @return 성공: 수정된 열의 번호(long), 실패: -1
      */
-    public int update(int key, ContentValues values){
-        String where = dbHelper.COLUMN_ID + " = " + key;
-        return db.update(TableName, values, where, null);
+    public long update(int key, ContentValues values){
+        String sql = "UPDATE " + TableName+" SET ("
+                + dbHelper.COLUMN_DATE +", "
+                + dbHelper.COLUMN_CONTENTS+","
+                + dbHelper.COLUMN_TITLE+","
+                + dbHelper.COLUMN_YTBURL+","
+                + dbHelper.COLUMN_IMG+") = (?, ?, ?, ?, ?)"
+                +" WHERE "+ dbHelper.COLUMN_ID +"="+key;
+
+        SQLiteStatement updateStmt = db.compileStatement(sql);
+        updateStmt.clearBindings();
+        updateStmt.bindString(1,values.getAsString("CreationDate"));
+        updateStmt.bindString(2,values.getAsString("MemoContents"));
+        updateStmt.bindString(3,values.getAsString("MemoTitle"));
+        updateStmt.bindString(4,values.getAsString("YoutubeUrl"));
+        updateStmt.bindBlob(5,values.getAsByteArray("Image"));
+
+        return updateStmt.executeUpdateDelete();
     }
 
     /**
      * 날짜정보를 이용해 해당 날짜의 메모를 전부 select
      * @param date (String)
-     * @return 성공: ArrayList<Map<String,String>> , 실패: null
+     * @return 성공: ArrayList<ContentValues> , 실패: null
      */
-    public ArrayList<Map<String,String>> select(String date){
+    public ArrayList<ContentValues> select(String date){
         String selection = dbHelper.COLUMN_DATE+"=? AND "+dbHelper.COLUMN_USEYN +"=?";
         Cursor cursor = db.query(TableName, null, selection, new String[]{date,"Y"}, null, null, null);
 
@@ -93,16 +124,16 @@ public class DBHandler {
             return null;
         }
 
-        ArrayList<Map<String,String>> list= new ArrayList<Map<String,String>>();
+        ArrayList<ContentValues> list= new ArrayList<>();
         while(true){
-            Map<String,String> tmp = new HashMap<String,String>();
+            ContentValues tmp = new ContentValues();
 
-            tmp.put("Memo_ID",Integer.toString(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID))));
+            tmp.put("Memo_ID",cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
             tmp.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
             tmp.put("MemoContents",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
             tmp.put("MemoTitle",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
             tmp.put("YoutubeUrl",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
-            tmp.put("ImagePath",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_IMGPATH)));
+            tmp.put("Image",cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
             tmp.put("UseYN",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
 
             list.add(tmp);
@@ -114,9 +145,9 @@ public class DBHandler {
     /**
      * key값을 이용해 해당 메모정보를 반환.
      * @param key (int)
-     * @return Map<String,String> 메모 정보가 담겨져 있음. HashMap.
+     * @return ContentValues 메모 정보가 담겨져 있음. HashMap.
      */
-    public Map<String,String> selectOne(int key){
+    public ContentValues selectOne(int key){
         String sql = "SELECT * FROM "+TableName+" WHERE "+dbHelper.COLUMN_ID+"="+key+" AND "+dbHelper.COLUMN_USEYN+"='Y'";
         Cursor cursor = db.rawQuery(sql,null);
 
@@ -124,17 +155,17 @@ public class DBHandler {
             return null;
         }
 
-        Map<String,String> resultMap= new HashMap<String,String>();
+        ContentValues values = new ContentValues();
 
-        resultMap.put("Memo_ID",Integer.toString(cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID))));
-        resultMap.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
-        resultMap.put("MemoContents",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
-        resultMap.put("MemoTitle",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
-        resultMap.put("YoutubeUrl",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
-        resultMap.put("ImagePath",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_IMGPATH)));
-        resultMap.put("UseYN",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
+        values.put("Memo_ID",cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
+        values.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
+        values.put("MemoContents",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
+        values.put("MemoTitle",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
+        values.put("YoutubeUrl",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
+        values.put("Image",cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
+        values.put("UseYN",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
 
-        return resultMap;
+        return values;
     }
 
 }
