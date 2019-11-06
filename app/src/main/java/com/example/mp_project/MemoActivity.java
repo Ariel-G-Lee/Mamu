@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 /**
  * MemoActivity
@@ -32,6 +35,16 @@ public class MemoActivity extends AppCompatActivity {
     byte[] bytearrays;
     int key;
     String date;
+
+    private YouTubePlayerSupportFragmentX youTubePlayerFragment;
+    private YouTubePlayer youTubePlayer;
+
+    //아래에서 파싱해야하는 youtube key - 아래 키는 테스트용 키
+    String videoId = "KFx6HqobTgE";
+
+    //API Key
+    String apiKey = "AIzaSyDuy59FohjySY3Zq1LUDUiMG2yNmCNW5cY";
+
 
 
     @Override
@@ -74,6 +87,9 @@ public class MemoActivity extends AppCompatActivity {
             bytearrays = memo.getAsByteArray("Image");
             imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
         }
+
+        //set Youtube player
+        initializeYoutubePlayer();
     }
 
     //팝업 메뉴 메소드
@@ -101,17 +117,40 @@ public class MemoActivity extends AppCompatActivity {
                     case "취소":
                         break;
                 }
-
-                //임시 테스트용
-                Toast.makeText(
-                        MemoActivity.this,
-                        "You Clicked : " + item.getTitle(),
-                        Toast.LENGTH_SHORT
-                ).show();
                 return true;
             }
         });
         popup.show();
+    }
+
+    //유튜브 플레이어 메소드
+    private void initializeYoutubePlayer() {
+
+        youTubePlayerFragment = (YouTubePlayerSupportFragmentX) getSupportFragmentManager()
+                .findFragmentById(R.id.youtubeFragment);
+
+        if (youTubePlayerFragment == null)
+            return;
+
+        youTubePlayerFragment.initialize(apiKey, new YouTubePlayer.OnInitializedListener() {
+            //초기화 성공
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player,
+                                                boolean wasRestored) {
+                if (!wasRestored) {
+                    youTubePlayer = player;
+
+                    //set the player style default
+                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+                    youTubePlayer.loadVideo(videoId);
+                    youTubePlayer.play();
+                }
+            }
+            //초기화 실패
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider arg0, YouTubeInitializationResult arg1) {
+            }
+        });
     }
 
 }

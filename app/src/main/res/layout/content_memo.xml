@@ -37,7 +37,14 @@
             android:text="제목 표시되는 곳"/>
     </RelativeLayout>
 
-
+    <!--유튜브 영상 재생 프래그먼트-->
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/youtubeFragment"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragmentX"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -46,11 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!--유튜브 영상을 위한 예비칸-->
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+
             <!-- 이미지뷰 -->
             <ImageView
                 android:id="@+id/imageView"
