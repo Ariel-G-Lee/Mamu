@@ -40,7 +40,10 @@ public class EditActivity extends AppCompatActivity {
     EditText editURL;
     EditText editMemo;
     ImageView imgView;
-    byte[] bytearrays;
+    byte[] bytearrays = {};
+
+    int key;
+    String date;
 
     private static final int PICK_IMAGE = 1;
     private static final int GALLERY_PERMISSION = 2;
@@ -75,8 +78,8 @@ public class EditActivity extends AppCompatActivity {
 
         //key 값 수신
         Intent intent = getIntent();
-        final int key = intent.getExtras().getInt("key");
-        final String date = intent.getExtras().getString("date");
+        key = intent.getExtras().getInt("key");
+        date = intent.getExtras().getString("date");
 
         //memo 정보 불러오기
         ContentValues memo =  handler.selectOne(key);
@@ -105,11 +108,11 @@ public class EditActivity extends AppCompatActivity {
                 values.put("Image", bytearrays); // 사진 : bytearrays
 
                 if(key<0){ // 생성-저장
-                    long tmp = handler.insert(values);
-                    Toast.makeText(getApplicationContext(), "저장되었습니다."+tmp, Toast.LENGTH_SHORT).show();
+                    key = (int)handler.insert(values);
+                    Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
                 }else{ // 수정
-                    long tmp = handler.update(key,values);
-                    Toast.makeText(getApplicationContext(), "수정되었습니다."+tmp, Toast.LENGTH_SHORT).show();
+                    key = (int)handler.update(key,values);
+                    Toast.makeText(getApplicationContext(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
                 }
 
                 //MemoActivity로 이동
