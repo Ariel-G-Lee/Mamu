@@ -91,10 +91,13 @@ public class MemoActivity extends AppCompatActivity {
             String fullUrl = memo.getAsString("YoutubeUrl");
             String[] array = fullUrl.split("/");
             videoId = array[array.length-1];
+            //set Youtube player
+            if(!videoId.equals("")){
+                initializeYoutubePlayer();
+            }
         }
 
-        //set Youtube player
-        initializeYoutubePlayer();
+
     }
 
     //팝업 메뉴 메소드
@@ -120,6 +123,7 @@ public class MemoActivity extends AppCompatActivity {
                         startActivity(new Intent(MemoActivity.this,MainActivity.class));
                         break;
                     case "취소":
+                        finish();
                         break;
                 }
                 return true;
