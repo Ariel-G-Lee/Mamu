@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -39,8 +40,8 @@ public class MemoActivity extends AppCompatActivity {
     private YouTubePlayerSupportFragmentX youTubePlayerFragment;
     private YouTubePlayer youTubePlayer;
 
-    //아래에서 파싱해야하는 youtube key - 아래 키는 테스트용 키
-    String videoId = "KFx6HqobTgE";
+    //아래에서 파싱해야하는 youtube key
+    String videoId;
 
     //API Key
     String apiKey = "AIzaSyDuy59FohjySY3Zq1LUDUiMG2yNmCNW5cY";
@@ -86,6 +87,10 @@ public class MemoActivity extends AppCompatActivity {
             contentView.setText(memo.getAsString("MemoContents"));
             bytearrays = memo.getAsByteArray("Image");
             imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
+            //전체 url에서 youtube key 추출
+            String fullUrl = memo.getAsString("YoutubeUrl");
+            String[] array = fullUrl.split("/");
+            videoId = array[array.length-1];
         }
 
         //set Youtube player
@@ -140,7 +145,7 @@ public class MemoActivity extends AppCompatActivity {
                 if (!wasRestored) {
                     youTubePlayer = player;
 
-                    //set the player style default
+                    //set the player style
                     youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
                     youTubePlayer.loadVideo(videoId);
                     youTubePlayer.play();
@@ -152,5 +157,15 @@ public class MemoActivity extends AppCompatActivity {
             }
         });
     }
-
+    //뒤로가기 버튼 메소드
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

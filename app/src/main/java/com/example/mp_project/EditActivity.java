@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,12 +115,13 @@ public class EditActivity extends AppCompatActivity {
                     key = (int)handler.update(key,values);
                     Toast.makeText(getApplicationContext(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
                 }
-
                 //MemoActivity로 이동
                 Intent i = new Intent(EditActivity.this, MemoActivity.class);
                 i.putExtra("key", key); //key값 전달
                 i.putExtra("date", date);
                 startActivity(i);
+                //현재 액티비티 종료하고 넘어가기
+                finish();
             }
         });
 
@@ -188,5 +190,15 @@ public class EditActivity extends AppCompatActivity {
         startActivityForResult(chooseIntent,PICK_IMAGE);
     }
 
-
+    //뒤로가기 버튼 메소드
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
