@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -37,10 +37,11 @@ public class MemoActivity extends AppCompatActivity {
     int key;
     String date;
 
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
     private YouTubePlayerSupportFragmentX youTubePlayerFragment;
     private YouTubePlayer youTubePlayer;
 
-    //아래에서 파싱해야하는 youtube key
+    //youtube key
     String videoId;
 
     //API Key
@@ -81,23 +82,28 @@ public class MemoActivity extends AppCompatActivity {
         //set title
         setTitle(date);
 
+        youTubePlayerFragment = (YouTubePlayerSupportFragmentX) getSupportFragmentManager()
+                .findFragmentById(R.id.youtubeFragment);
+
         //set data
         if(key>0){
             titleView.setText(memo.getAsString("MemoTitle"));
             contentView.setText(memo.getAsString("MemoContents"));
             bytearrays = memo.getAsByteArray("Image");
             imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
-            //전체 url에서 youtube key 추출
             String fullUrl = memo.getAsString("YoutubeUrl");
-            String[] array = fullUrl.split("/");
-            videoId = array[array.length-1];
-            //set Youtube player
-            if(!videoId.equals("")){
-                initializeYoutubePlayer();
+            // url이 DB에 입력되지 않았을 경우 프래그먼트 hide
+            if(fullUrl.equals("")){
+                fragmentTransaction.hide(youTubePlayerFragment);
+                fragmentTransaction.commit();
+            } else {
+                //전체 url에서 youtube key 추출
+                String[] array = fullUrl.split("/");
+                videoId = array[array.length-1];
+                //set youtube player
+                initializeYoutubePlayer(youTubePlayerFragment);
             }
         }
-
-
     }
 
     //팝업 메뉴 메소드
@@ -123,7 +129,6 @@ public class MemoActivity extends AppCompatActivity {
                         startActivity(new Intent(MemoActivity.this,MainActivity.class));
                         break;
                     case "취소":
-                        finish();
                         break;
                 }
                 return true;
@@ -133,10 +138,9 @@ public class MemoActivity extends AppCompatActivity {
     }
 
     //유튜브 플레이어 메소드
-    private void initializeYoutubePlayer() {
-
-        youTubePlayerFragment = (YouTubePlayerSupportFragmentX) getSupportFragmentManager()
-                .findFragmentById(R.id.youtubeFragment);
+    private void initializeYoutubePlayer(YouTubePlayerSupportFragmentX youTubePlayerFragment) {
+//        youTubePlayerFragment = (YouTubePlayerSupportFragmentX) getSupportFragmentManager()
+//                .findFragmentById(R.id.youtubeFragment);
 
         if (youTubePlayerFragment == null)
             return;
@@ -160,6 +164,7 @@ public class MemoActivity extends AppCompatActivity {
             public void onInitializationFailure(YouTubePlayer.Provider arg0, YouTubeInitializationResult arg1) {
             }
         });
+        fragmentTransaction.show(youTubePlayerFragment);
     }
     //뒤로가기 버튼 메소드
     @Override
