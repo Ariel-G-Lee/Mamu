@@ -26,7 +26,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, DetailActivity.class));
+               // startActivity(new Intent(MainActivity.this, DetailActivity.class));
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                intent.putExtra("key",1); //key값 전달 -1이면 생성, 그밖은 수정.
+                intent.putExtra("date","191103");
+                startActivity(intent);
             }
         });
     }

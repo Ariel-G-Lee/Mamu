@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="bottom">
+    <item
+        android:id="@+id/actionModify"
+        android:title="@string/action_modify"/>
+    <item
+        android:id="@+id/actionDelete"
+        android:title="@string/action_delete" />
+    <item
+        android:id="@+id/actionCancel"
+        android:title="@string/action_cancel" />
+</menu>

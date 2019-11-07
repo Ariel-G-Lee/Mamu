@@ -17,7 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COLUMN_CONTENTS = "MemoContents";
     static final String COLUMN_TITLE = "MemoTitle";
     static final String COLUMN_YTBURL = "YoutubeUrl";
-    static final String COLUMN_IMGPATH = "ImagePath";
+    static final String COLUMN_IMG = "Image";
     static final String COLUMN_USEYN = "UseYN";
 
     //Constructor
@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COLUMN_CONTENTS + " TEXT,"
                 + COLUMN_TITLE + " TEXT,"
                 + COLUMN_YTBURL + " TEXT,"
-                + COLUMN_IMGPATH + " TEXT,"
+                + COLUMN_IMG + " BLOB,"
                 + COLUMN_USEYN+ " TEXT"
                 + ");";
 
