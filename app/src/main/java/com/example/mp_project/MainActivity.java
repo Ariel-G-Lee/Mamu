@@ -13,6 +13,11 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.Calendar;
 
+/**
+ * MemoActivity
+ * @author 조성주
+ */
+
 public class MainActivity extends AppCompatActivity {
     private ListView list;
     @Override
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         MaterialCalendarView widget = findViewById(R.id.calendarView);
 
+        //material calendar 옵션 설정
         widget.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setMinimumDate(CalendarDay.from(2017, 1, 1)) // 달력의 시작
