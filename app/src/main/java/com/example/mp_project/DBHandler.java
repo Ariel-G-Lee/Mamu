@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
+import static com.example.mp_project.MainActivity.DataList;
+
 
 /**
  * DB 데이터 관리 클래스
@@ -169,4 +171,23 @@ public class DBHandler {
         return values;
     }
 
+
+
+
+    //MainActivity에서 리스트문에서 날짜선택되면 list데이터불러오는부분
+    public void InitializeData(int date) {
+        DataList = new ArrayList<SampleData>();
+
+       // DBHelper helper = new DBHelper(this);
+       // SQLiteDatabase db = helper.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from UserMemo where CreationDate="+date,null);
+
+        while (cursor.moveToNext()){
+            DataList.add(new SampleData(R.drawable.ic_add_black_24dp, cursor.getString(3),cursor.getString(2)));
+            // @@@@@@@@@@@ R.Drawable 다음에 아이콘그림은 바꿔서 추가해주기 (icon) 일단 임의로 ic_add사진 넣어둠
+            // Date 값에 해당하는 데이터들을 DataList에 연속해서 집어넣어주는데
+            //getString 3번째열을 이름(name)에  2번째 열을 내용(content)에다 집어넣어준다.
+        }
+    }
 }
