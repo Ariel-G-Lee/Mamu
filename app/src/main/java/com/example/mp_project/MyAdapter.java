@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
+/*
+ * MyAdapter
+ * @author 허윤서,강주혜
+ */
 public class MyAdapter extends BaseAdapter {
 
     Context mContext = null;
@@ -41,13 +44,13 @@ public class MyAdapter extends BaseAdapter {
     public View getView(int position, View converView, ViewGroup parent) {
         View view = mLayoutInflater.inflate(R.layout.listview, null);
 
-        ImageView imageView = (ImageView)view.findViewById(R.id.poster);
-        TextView movieName = (TextView)view.findViewById(R.id.movieName);
-        TextView grade = (TextView)view.findViewById(R.id.grade);
+        ImageView imageView = (ImageView)view.findViewById(R.id.icon);
+        TextView name = (TextView)view.findViewById(R.id.name);
+        TextView content = (TextView)view.findViewById(R.id.content);
 
         imageView.setImageResource(sample.get(position).geticon());
-        movieName.setText(sample.get(position).getname());
-        grade.setText(sample.get(position).getcontent());
+        name.setText(sample.get(position).getname());
+        content.setText(sample.get(position).getcontent());
 
         return view;
     }

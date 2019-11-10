@@ -29,7 +29,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private ListView list;
-    ArrayList<SampleData> movieDataList;
+    ArrayList<SampleData> DataList;
     int date;
     DBHandler handler;
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         //어댑터랑 리스트뷰xml이랑 연결
         this.InitializeMovieData();
         ListView listView = (ListView)findViewById(R.id.listView);
-        final MyAdapter myAdapter = new MyAdapter(this,movieDataList);
+        final MyAdapter myAdapter = new MyAdapter(this,DataList);
         listView.setAdapter(myAdapter);
 
 
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
         //리스트 나열된거 누르면 Activity Memo 로 이동......일단 토스처리해둠
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -90,23 +91,24 @@ public class MainActivity extends AppCompatActivity {
     private void InitializeMovieData() {
         handler = DBHandler.open(this);
 
-
-        movieDataList = new ArrayList<SampleData>();
+        DataList = new ArrayList<SampleData>();
         /*
         movieDataList.add(new SampleData(R.drawable.movieposter1, "미션 이상임파서블","15세관람가"));
         movieDataList.add(new SampleData(R.drawable.movieposter2, "아저씨","19세 이상관람가"));
         movieDataList.add(new SampleData(R.drawable.movieposter3, "어벤져스","12세 이상관람가"));
          */
+
         DBHelper helper = new DBHelper(this);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from UserMemo where _CreationDate="+date,null);
-        String photo=null;
+        Cursor cursor = db.rawQuery("select * from UserMemo where CreationDate="+date,null);
+
         while (cursor.moveToNext()){
-            movieDataList.add(new SampleData(R.drawable.ic_add_black_24dp, cursor.getString(3),cursor.getString(2)));
+            DataList.add(new SampleData(R.drawable.ic_add_black_24dp, cursor.getString(3),cursor.getString(2)));
             // @@@@@@@@@@@R.Drawable 다음에 아이콘그림은 바꿔서 추가해주기 (icon)
             // 한마디로 Date 값에 해당하는 데이터들을 무비데이터 List에 연속해서 집어넣어주는데
             //getString 3번쨰열을 이름(name)에  2번째 열을 내용(content)에다 집어넣어준다
             //이건 데이터에 이름이랑 내용이 세번쨰랑 두번쨰에 있어서
         }
+
     }
 }
