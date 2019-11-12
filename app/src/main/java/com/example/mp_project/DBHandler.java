@@ -150,44 +150,25 @@ public class DBHandler {
      * @param key (int)
      * @return ContentValues 메모 정보가 담겨져 있음. HashMap.
      */
-    public ContentValues selectOne(int key){
+    public ContentValues selectOne(int key) {
         ContentValues values = new ContentValues();
 
-        String sql = "SELECT * FROM "+TableName+" WHERE "+dbHelper.COLUMN_ID+"="+key+" AND "+dbHelper.COLUMN_USEYN+"='Y'";
-        Cursor cursor = db.rawQuery(sql,null);
+        String sql = "SELECT * FROM " + TableName + " WHERE " + dbHelper.COLUMN_ID + "=" + key + " AND " + dbHelper.COLUMN_USEYN + "='Y'";
+        Cursor cursor = db.rawQuery(sql, null);
 
-        if(!cursor.moveToFirst()){
+        if (!cursor.moveToFirst()) {
             return values;
         }
 
-        values.put("Memo_ID",cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
-        values.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
-        values.put("MemoContents",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
-        values.put("MemoTitle",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
-        values.put("YoutubeUrl",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
-        values.put("Image",cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
-        values.put("UseYN",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
+        values.put("Memo_ID", cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
+        values.put("CreationDate", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
+        values.put("MemoContents", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
+        values.put("MemoTitle", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
+        values.put("YoutubeUrl", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
+        values.put("Image", cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
+        values.put("UseYN", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
 
         return values;
-    }
 
-
-
-
-    //MainActivity에서 리스트문에서 날짜선택되면 list데이터불러오는부분
-    public void InitializeData(int date) {
-        DataList = new ArrayList<SampleData>();
-
-       // DBHelper helper = new DBHelper(this);
-       // SQLiteDatabase db = helper.getWritableDatabase();
-
-        Cursor cursor = db.rawQuery("select * from UserMemo where CreationDate="+date,null);
-
-        while (cursor.moveToNext()){
-            DataList.add(new SampleData(R.drawable.ic_add_black_24dp, cursor.getString(3),cursor.getString(2)));
-            // @@@@@@@@@@@ R.Drawable 다음에 아이콘그림은 바꿔서 추가해주기 (icon) 일단 임의로 ic_add사진 넣어둠
-            // Date 값에 해당하는 데이터들을 DataList에 연속해서 집어넣어주는데
-            //getString 3번째열을 이름(name)에  2번째 열을 내용(content)에다 집어넣어준다.
-        }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="80dp">
@@ -14,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="20"
-        android:src="@drawable/ic_play_arrow_black_24dp"<!--그래들 변경 or srcCompact로 변경해야함-->
+        app:srcCompat="@drawable/ic_play_arrow_black_24dp"
         />
     <LinearLayout
         android:layout_width="0dp"
@@ -37,7 +38,7 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="날짜"
+            android:text="내용"
             android:layout_weight="40"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
