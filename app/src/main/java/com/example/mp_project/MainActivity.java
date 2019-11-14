@@ -22,13 +22,14 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * MemoActivity
- * @author 조성주, 허윤서, 강주혜, 김희주
+ * @author 조성주, 허윤서, 강주혜, 김희주, 이가빈
  */
 
 public class MainActivity extends AppCompatActivity
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     ListView listView;
     ArrayList<ContentValues> DataList;
     MyAdapter myAdapter;
-    String date;
+    static String date;
     DBHandler handler;
 
 
@@ -47,10 +48,13 @@ public class MainActivity extends AppCompatActivity
         handler = DBHandler.open(this);
 
         MaterialCalendarView widget = findViewById(R.id.calendarView);
+
+        Calendar calendar = Calendar.getInstance();
+        widget.setDateSelected(calendar.getTime(), true);
+
         widget.setOnDateChangedListener(this);
 
-        //클릭해서 스와이프한후 날짜를 받아오면 date를 선택된날짜로 지정해주는부분. 일단 임의로 날짜를정해둠
-        date="191103";
+        date = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
 
         //어댑터랑 리스트뷰xml이랑 연결
         this.InitializeData();
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //리스트 나열된거 누르면 Activity Memo 로 이동......일단 토스처리해둠
+        //리스트 누르면 Activity Memo 로 이동
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
@@ -81,17 +85,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 finish();
 
-                /*Toast.makeText(getApplicationContext(),
-                        myAdapter.getItem(position).getAsString("MemoTitle"),
-                        Toast.LENGTH_LONG).show();*/
             }
         });
 
         //material calendar 옵션 설정
         widget.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(2017, 1, 1)) // 달력의 시작
-                .setMaximumDate(CalendarDay.from(2030, 12, 31)) // 달력의 끝
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
     }
@@ -107,9 +106,7 @@ public class MainActivity extends AppCompatActivity
         String month = Integer.toString(date.getMonth());
         String day = Integer.toString(date.getDay());
 
-        String text = year+month+day;
-        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-
+        MainActivity.date = year+month+day;
 
     }
 }
