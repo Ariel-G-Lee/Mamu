@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/sign_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="12"
+            android:hint="아이디"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/checkId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="중복확인">
+        </Button>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/id_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/sign_pw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/pw_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/sign_pw_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="비밀번호확인" />
+
+    <TextView
+        android:id="@+id/pw_check_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/sign_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이름"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/sign_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="전화번호"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/sign_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="주소"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="개인정보 사용에 동의하십니까?"
+        android:textSize="15sp" />
+
+    <RadioGroup
+        android:id="@+id/radioG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="동의합니다"
+            android:textSize="12sp"/>
+
+        <RadioButton
+            android:id="@+id/radioN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="동의하지 않습니다"
+            android:textSize="12sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:text="회원가입">
+    </Button>
+
+</LinearLayout>
