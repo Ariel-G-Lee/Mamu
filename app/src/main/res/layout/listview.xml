@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    android:padding="10dp">
 
     <View
         android:layout_width="0dp"
@@ -12,8 +13,8 @@
         />
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_weight="20"
         app:srcCompat="@drawable/ic_play_arrow_black_24dp"
         />

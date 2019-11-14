@@ -24,6 +24,7 @@ public class MyAdapter extends BaseAdapter {
     public MyAdapter(Context context, ArrayList<ContentValues> data) {
         mContext = context;
         values = data;
+        utils = new Utils(mContext);
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
@@ -50,11 +51,11 @@ public class MyAdapter extends BaseAdapter {
         TextView name = (TextView)view.findViewById(R.id.name);
         TextView content = (TextView)view.findViewById(R.id.content);
 
-        byte[] tmp = values.get(position).getAsByteArray("Image");
+        byte[] bytearrays = values.get(position).getAsByteArray("Image");
 
-        if(tmp.length<=0){
-            Bitmap bitmap = utils.ByteArraytoBitmap(tmp);
-            imageView.setImageBitmap(bitmap);
+        if(bytearrays.length>0 && bytearrays != null){
+            Bitmap bitmap = utils.ByteArraytoBitmap(bytearrays);
+            imageView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
         }
 
         //Bitmap bitmap = utils.ByteArraytoBitmap(sample.get(position).getAsByteArray("Image"));
