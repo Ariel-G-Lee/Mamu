@@ -13,22 +13,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * MemoActivity
  * @author 조성주, 허윤서, 강주혜, 김희주
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements OnDateSelectedListener {
     ListView listView;
     ArrayList<ContentValues> DataList;
     MyAdapter myAdapter;
@@ -42,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         handler = DBHandler.open(this);
 
+        MaterialCalendarView widget = findViewById(R.id.calendarView);
+        widget.setOnDateChangedListener(this);
+
         //클릭해서 스와이프한후 날짜를 받아오면 date를 선택된날짜로 지정해주는부분. 일단 임의로 날짜를정해둠
         date="191103";
 
@@ -50,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView)findViewById(R.id.listView);
         myAdapter = new MyAdapter(this, DataList);
         listView.setAdapter(myAdapter);
-
 
         // 맨 아래 핑크색 동그라미 버튼 (플로팅버튼) 눌렀을때 Activity_edit 로 화면전환
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -81,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        MaterialCalendarView widget = findViewById(R.id.calendarView);
         //material calendar 옵션 설정
         widget.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -93,11 +96,20 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-
     //데이터 초기화, 날짜에 맞는 데이터 불러와서 저장해주는곳
     private void InitializeData() {
         DataList = handler.select(date);
     }
 
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        String year =Integer.toString(date.getYear());
+        String month = Integer.toString(date.getMonth());
+        String day = Integer.toString(date.getDay());
 
+        String text = year+month+day;
+        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+
+
+    }
 }
