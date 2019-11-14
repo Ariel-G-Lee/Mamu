@@ -1,44 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--Detail Layout : activity_main.xml
+<?xml version="1.0" encoding="utf-8"?><!--Detail Layout : activity_main.xml
     @author 조성주-->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <!--달력-->
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
+        android:layout_height="wrap_content"
+        app:mcv_selectionColor="#ff6f61"
+        app:mcv_showOtherDates="all" />
 
-        <!--달력-->
-
-        <!--해당 날짜의 메모 리스트-->
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:mcv_selectionColor="#00F"
-            app:mcv_showOtherDates="all" />
-
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    <!--해당 날짜의 메모 리스트-->
+    <ListView
+        android:layout_below="@+id/calendarView"
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <!--메모 추가 버튼-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:backgroundTint="#ff6f61"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!--android:layout_gravity="bottom|end"-->
+</RelativeLayout>
