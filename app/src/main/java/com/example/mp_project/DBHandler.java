@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
-import static com.example.mp_project.MainActivity.DataList;
-
 
 /**
  * DB 데이터 관리 클래스
