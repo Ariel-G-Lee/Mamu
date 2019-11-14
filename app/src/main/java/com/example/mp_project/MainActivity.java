@@ -1,5 +1,6 @@
 package com.example.mp_project;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,14 +25,14 @@ import java.util.Calendar;
 
 /**
  * MemoActivity
- * @author 조성주
- * @author 허윤서,강주혜
+ * @author 조성주, 허윤서, 강주혜, 김희주
  */
 
 public class MainActivity extends AppCompatActivity {
-    private ListView list;
-    public static ArrayList<SampleData> DataList;
-    int date;
+    ListView listView;
+    ArrayList<ContentValues> DataList;
+    MyAdapter myAdapter;
+    String date;
     DBHandler handler;
 
 
@@ -39,18 +40,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        handler = DBHandler.open(this);
 
-        list = (ListView)findViewById(R.id.listView);
+        //클릭해서 스와이프한후 날짜를 받아오면 date를 선택된날짜로 지정해주는부분. 일단 임의로 날짜를정해둠
+        date="191103";
 
         //어댑터랑 리스트뷰xml이랑 연결
         this.InitializeData();
-        ListView listView = (ListView)findViewById(R.id.listView);
-        final MyAdapter myAdapter = new MyAdapter(this,DataList);
+        listView = (ListView)findViewById(R.id.listView);
+        myAdapter = new MyAdapter(this, DataList);
         listView.setAdapter(myAdapter);
-
-
-        //클릭해서 스와이프한후 날짜를 받아오면 date를 선택된날짜로 지정해주는부분. 일단 임의로 날짜를정해둠
-        date=191109;
 
 
         // 맨 아래 핑크색 동그라미 버튼 (플로팅버튼) 눌렀을때 Activity_edit 로 화면전환
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 intent.putExtra("key",-1); //key값 전달 -1이면 생성, 그밖은 수정.
-                intent.putExtra("date","191103");
+                intent.putExtra("date",date);
                 startActivity(intent);
             }
         });
@@ -69,9 +68,14 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id){
-                Toast.makeText(getApplicationContext(),
-                        myAdapter.getItem(position).getname(),
-                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, MemoActivity.class);
+                intent.putExtra("key",myAdapter.getItem(position).getAsInteger("Memo_ID")); //key값 전달
+                intent.putExtra("date", date);
+                startActivity(intent);
+
+                /*Toast.makeText(getApplicationContext(),
+                        myAdapter.getItem(position).getAsString("MemoTitle"),
+                        Toast.LENGTH_LONG).show();*/
             }
         });
 
@@ -90,25 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     //데이터 초기화, 날짜에 맞는 데이터 불러와서 저장해주는곳
     private void InitializeData() {
-
-       // handler = DBHandler.open(this);
-       // handler.InitializeData(date);
-        DataList = new ArrayList<SampleData>();
-        DBHelper helper = new DBHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from UserMemo where CreationDate="+191103,null);
-
-        //@@@@@@@@@@@@@@@@@ 지일문 @@@@@@@@@@@@@@@@@@@
-        // 1911103을 쓰면 나오는데 왜 date를 쓰면 아무것도 안나오는가
-
-
-        while (cursor.moveToNext()){
-            DataList.add(new SampleData(R.drawable.ic_play_arrow_black_24dp, cursor.getString(4),cursor.getString(3)));
-            // R.Drawable 다음에 아이콘그림 (icon)
-            // Date 값에 해당하는 데이터들을 DataList에 연속해서 집어넣어주는데
-            //getString 4번째열을 이름(name)에  3번째 열을 내용(content)에다 집어넣어준다.
-        }
-
+        DataList = handler.select(date);
     }
 
 

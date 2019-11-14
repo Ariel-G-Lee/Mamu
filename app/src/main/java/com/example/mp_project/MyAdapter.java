@@ -1,6 +1,8 @@
 package com.example.mp_project;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +13,23 @@ import android.widget.TextView;
 import java.util.ArrayList;
 /*
  * MyAdapter
- * @author 허윤서,강주혜
+ * @author 허윤서,강주혜, 김희주
  */
 public class MyAdapter extends BaseAdapter {
-
+    Utils utils;
     Context mContext = null;
     LayoutInflater mLayoutInflater = null;
-    ArrayList<SampleData> sample;
+    ArrayList<ContentValues> values;
 
-    public MyAdapter(Context context, ArrayList<SampleData> data) {
+    public MyAdapter(Context context, ArrayList<ContentValues> data) {
         mContext = context;
-        sample = data;
+        values = data;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public int getCount() {
-        return sample.size();
+        return values.size();
     }
 
     @Override
@@ -36,8 +38,8 @@ public class MyAdapter extends BaseAdapter {
     }
 
     @Override
-    public SampleData getItem(int position) {
-        return sample.get(position);
+    public ContentValues getItem(int position) {
+        return values.get(position);
     }
 
     @Override
@@ -48,9 +50,17 @@ public class MyAdapter extends BaseAdapter {
         TextView name = (TextView)view.findViewById(R.id.name);
         TextView content = (TextView)view.findViewById(R.id.content);
 
-        imageView.setImageResource(sample.get(position).geticon());
-        name.setText(sample.get(position).getname());
-        content.setText(sample.get(position).getcontent());
+        byte[] tmp = values.get(position).getAsByteArray("Image");
+
+        if(tmp.length<=0){
+            Bitmap bitmap = utils.ByteArraytoBitmap(tmp);
+            imageView.setImageBitmap(bitmap);
+        }
+
+        //Bitmap bitmap = utils.ByteArraytoBitmap(sample.get(position).getAsByteArray("Image"));
+
+        name.setText(values.get(position).getAsString("MemoTitle"));
+        content.setText(values.get(position).getAsString("MemoContents"));
 
         return view;
     }
