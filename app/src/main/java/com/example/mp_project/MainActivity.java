@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("key",-1); //key값 전달 -1이면 생성, 그밖은 수정.
                 intent.putExtra("date",date);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("key",myAdapter.getItem(position).getAsInteger("Memo_ID")); //key값 전달
                 intent.putExtra("date", date);
                 startActivity(intent);
+                finish();
 
                 /*Toast.makeText(getApplicationContext(),
                         myAdapter.getItem(position).getAsString("MemoTitle"),

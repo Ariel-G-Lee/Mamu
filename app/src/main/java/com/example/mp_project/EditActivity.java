@@ -195,10 +195,24 @@ public class EditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                Intent intent = new Intent(EditActivity.this, MemoActivity.class);
+                intent.putExtra("key",key); //key값 전달
+                intent.putExtra("date", date);
+                startActivity(intent);
                 finish();
                 return true;
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //물리적 뒤로가기 버튼 메소드
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditActivity.this, MemoActivity.class);
+        intent.putExtra("key",key); //key값 전달
+        intent.putExtra("date", date);
+        startActivity(intent);
+        finish();
     }
 }

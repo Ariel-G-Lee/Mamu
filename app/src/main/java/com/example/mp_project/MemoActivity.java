@@ -122,11 +122,13 @@ public class MemoActivity extends AppCompatActivity {
                         intent.putExtra("key", key); //key값 전달
                         intent.putExtra("date", date);
                         startActivity(intent);
+                        finish();
                         break;
                     case "삭제":
                         //지우고 메인 화면으로 돌아감
                         handler.delete(key);
                         startActivity(new Intent(MemoActivity.this,MainActivity.class));
+                        finish();
                         break;
                     case "취소":
                         break;
@@ -171,10 +173,18 @@ public class MemoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+                startActivity(new Intent(MemoActivity.this,MainActivity.class));
                 finish();
                 return true;
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //물리적 뒤로가기 버튼 메소드
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MemoActivity.this,MainActivity.class));
+        finish();
     }
 }
