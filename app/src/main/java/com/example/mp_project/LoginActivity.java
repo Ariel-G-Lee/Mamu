@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
+/**
+ * LoginActivity
+ * @author 김희주
+ */
 public class LoginActivity extends AppCompatActivity {
     DBHandler handler;
     Button loginbt;
@@ -19,8 +22,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText TextId;
     EditText TextPw;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +29,13 @@ public class LoginActivity extends AppCompatActivity {
 
         handler = DBHandler.open(this);
 
+        //view 연결
         TextId = (EditText)findViewById(R.id.inputid);
         TextPw = (EditText)findViewById(R.id.inputpw);
-
         loginbt = (Button)findViewById(R.id.login);
         signinbt = (Button)findViewById(R.id.signin);
 
+        //로그인 버튼 클릭
         loginbt.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //회원가입으로 이동
+        //회원가입 버튼
         signinbt.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
