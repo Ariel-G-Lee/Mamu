@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import android.widget.Toast;
  */
 public class LoginActivity extends AppCompatActivity {
     DBHandler handler;
+
     Button loginbt;
     Button signinbt;
 
@@ -35,29 +37,27 @@ public class LoginActivity extends AppCompatActivity {
         loginbt = (Button)findViewById(R.id.login);
         signinbt = (Button)findViewById(R.id.signin);
 
+        //비밀번호 EditText 엔터키 이벤트
+        TextPw.setOnKeyListener(new View.OnKeyListener(){
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event){
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    LoginAction();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         //로그인 버튼 클릭
         loginbt.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                String text_id = TextId.getText().toString();
-                String text_pw = TextPw.getText().toString();
-
-                ContentValues UserInfo = handler.selectMember(text_id);
-
-                if(UserInfo.size() <= 0){
-                    Toast.makeText(getApplicationContext(), "해당 아이디가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else if(!(UserInfo.getAsString("USER_PW").equals(text_pw))){
-                    Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else{//로그인 성공 - 메인화면 이동
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                }
+                LoginAction();
             }
         });
 
-        //회원가입 버튼
+        //회원가입 버튼 클릭
         signinbt.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -69,5 +69,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //로그인을 위해 아이디, 비밀번호 체크하는 메소드
+    public void LoginAction(){
+        String text_id = TextId.getText().toString();
+        String text_pw = TextPw.getText().toString();
 
+        ContentValues UserInfo = handler.selectMember(text_id);
+
+        if(UserInfo.size() <= 0){
+            Toast.makeText(getApplicationContext(), "해당 아이디가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(UserInfo.getAsString("USER_PW").equals(text_pw))){
+            Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else{//로그인 성공 - 메인화면 이동
+            Toast.makeText(getApplicationContext(), "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+    }
 }
