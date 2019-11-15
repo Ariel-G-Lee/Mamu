@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 /*
  * MyAdapter
- * @author 허윤서,강주혜, 김희주, 이가빈
+ * @author 허윤서, 강주혜, 김희주, 이가빈
  */
 public class MyAdapter extends BaseAdapter {
     Utils utils;
@@ -28,6 +28,10 @@ public class MyAdapter extends BaseAdapter {
         values = data;
         utils = new Utils(mContext);
         mLayoutInflater = LayoutInflater.from(mContext);
+    }
+
+    public void setItem(ArrayList<ContentValues> newValues){
+        values = newValues;
     }
 
     @Override

@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity
         date = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
 
         //어댑터랑 리스트뷰xml이랑 연결
-        this.InitializeData();
         listView = (ListView)findViewById(R.id.listView);
+        DataList = handler.select(date);
         myAdapter = new MyAdapter(this, DataList);
         listView.setAdapter(myAdapter);
 
@@ -118,9 +118,11 @@ public class MainActivity extends AppCompatActivity
 //                .commit();
     }
 
-    //데이터 초기화, 날짜에 맞는 데이터 불러와서 저장해주는곳
-    private void InitializeData() {
+    //리스트 초기화 - 김희주
+    private void InitializeList() {
         DataList = handler.select(date);
+        myAdapter.setItem(DataList);
+        myAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -130,6 +132,6 @@ public class MainActivity extends AppCompatActivity
         String day = Integer.toString(date.getDay());
 
         MainActivity.date = year+month+day;
-
+        InitializeList();
     }
 }
