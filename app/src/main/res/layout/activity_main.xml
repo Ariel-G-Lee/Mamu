@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?><!--Detail Layout : activity_main.xml
-    @author 조성주-->
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    @author 조성주, 이가빈-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:id="@+id/coordinatorMain"
     tools:context=".MainActivity">
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -17,8 +20,8 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapseToolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
+            android:layout_height="wrap_content"
+            app:contentScrim="#FFFFFF"
             app:expandedTitleGravity="top"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -39,16 +42,15 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- 내부 layout content_main.xml include-->
-    <include layout="@layout/content_main" />
-
+    <include layout="@layout/content_main"/>
     <!--메모 추가 버튼-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
         android:backgroundTint="#ff6f61"
         app:srcCompat="@drawable/ic_add_black_24dp" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,14 +55,22 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
         //타이틀 이름 삭제
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //배경 색상 흰색으로 설정
+        mToolbar.setBackgroundColor(Color.WHITE);
+        mCollapseTooBar.setBackgroundColor(Color.WHITE);
+
 
         handler = DBHandler.open(this);
         MaterialCalendarView widget = findViewById(R.id.calendarView);
+//        MaterialCalendarView widgetWeek = findViewById(R.id.calendarViewWeek);
 
         Calendar calendar = Calendar.getInstance();
-        widget.setDateSelected(calendar.getTime(), true);
 
+        widget.setDateSelected(calendar.getTime(), true);
         widget.setOnDateChangedListener(this);
+
+//        widgetWeek.setDateSelected(calendar.getTime(), true);
+//        widgetWeek.setOnDateChangedListener(this);
 
         date = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
 
@@ -97,11 +106,16 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //material calendar 옵션 설정
+        //material calendar month 옵션 설정
         widget.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
+
+//        widgetWeek.state().edit()
+//                .setFirstDayOfWeek(Calendar.SUNDAY)
+//                .setCalendarDisplayMode(CalendarMode.WEEKS)
+//                .commit();
     }
 
     //데이터 초기화, 날짜에 맞는 데이터 불러와서 저장해주는곳
