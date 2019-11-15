@@ -48,9 +48,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(mToolbar);
         //CollapsingToolbar에 캘린더 표시하기 위해 연결
         CollapsingToolbarLayout mCollapseTooBar = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbarLayout);
+
+        setSupportActionBar(mToolbar);
+        //타이틀 이름 삭제
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         handler = DBHandler.open(this);
         MaterialCalendarView widget = findViewById(R.id.calendarView);

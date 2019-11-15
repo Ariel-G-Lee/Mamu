@@ -194,8 +194,8 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
-                Intent intent = new Intent(EditActivity.this, MemoActivity.class);
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작(edit화면에서 뒤로가기 누르면 메인으로 가야함)
+                Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 intent.putExtra("key",key); //key값 전달
                 intent.putExtra("date", date);
                 startActivity(intent);
@@ -209,7 +209,7 @@ public class EditActivity extends AppCompatActivity {
     //물리적 뒤로가기 버튼 메소드
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(EditActivity.this, MemoActivity.class);
+        Intent intent = new Intent(EditActivity.this, MainActivity.class);
         intent.putExtra("key",key); //key값 전달
         intent.putExtra("date", date);
         startActivity(intent);
