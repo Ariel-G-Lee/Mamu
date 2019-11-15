@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapseToobarLayout"
+            android:id="@+id/collapseToolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
@@ -31,7 +31,7 @@
                 app:mcv_showOtherDates="all" />
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar2"
+                android:id="@+id/toolbarMain"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />

@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -45,8 +47,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        handler = DBHandler.open(this);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(mToolbar);
+        //CollapsingToolbar에 캘린더 표시하기 위해 연결
+        CollapsingToolbarLayout mCollapseTooBar = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbarLayout);
 
+        handler = DBHandler.open(this);
         MaterialCalendarView widget = findViewById(R.id.calendarView);
 
         Calendar calendar = Calendar.getInstance();
