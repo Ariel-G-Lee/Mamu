@@ -18,12 +18,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-<!--        <com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
-<!--            android:id="@+id/calendarViewWeek"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:mcv_selectionColor="#ff6f61"-->
-<!--            app:mcv_showOtherDates="all" />-->
         <!--해당 날짜의 메모 리스트-->
         <ListView
             android:id="@+id/listView"

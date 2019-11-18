@@ -67,9 +67,6 @@ public class MainActivity extends AppCompatActivity
 
         widget.setDateSelected(calendar.getTime(), true);
         widget.setOnDateChangedListener(this);
-
-//        widgetWeek.setDateSelected(calendar.getTime(), true);
-//        widgetWeek.setOnDateChangedListener(this);
         //-------------------------------
 
         date = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
@@ -118,11 +115,6 @@ public class MainActivity extends AppCompatActivity
                 .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
-
-//        widgetWeek.state().edit()
-//                .setFirstDayOfWeek(Calendar.SUNDAY)
-//                .setCalendarDisplayMode(CalendarMode.WEEKS)
-//                .commit();
         //-------------------------------
     }
 
