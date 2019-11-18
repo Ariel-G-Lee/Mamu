@@ -2,17 +2,11 @@ package com.example.mp_project;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +43,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
+
+        handler = DBHandler.open(this);
+
+        //------------이가빈------------
         //CollapsingToolbar에 캘린더 표시하기 위해 연결
         CollapsingToolbarLayout mCollapseTooBar = (CollapsingToolbarLayout) findViewById(R.id.collapseToolbarLayout);
 
@@ -58,9 +56,10 @@ public class MainActivity extends AppCompatActivity
         //배경 색상 흰색으로 설정
         mToolbar.setBackgroundColor(Color.WHITE);
         mCollapseTooBar.setBackgroundColor(Color.WHITE);
+        //-------------------------------
 
 
-        handler = DBHandler.open(this);
+        //------------조성주------------
         MaterialCalendarView widget = findViewById(R.id.calendarView);
 //        MaterialCalendarView widgetWeek = findViewById(R.id.calendarViewWeek);
 
@@ -71,15 +70,19 @@ public class MainActivity extends AppCompatActivity
 
 //        widgetWeek.setDateSelected(calendar.getTime(), true);
 //        widgetWeek.setOnDateChangedListener(this);
+        //-------------------------------
 
         date = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
 
+        //------------허윤서------------
         //어댑터랑 리스트뷰xml이랑 연결
         listView = (ListView)findViewById(R.id.listView);
         DataList = handler.select(date);
         myAdapter = new MyAdapter(this, DataList);
         listView.setAdapter(myAdapter);
+        //-------------------------------
 
+        //------------강주혜------------
         // 맨 아래 핑크색 동그라미 버튼 (플로팅버튼) 눌렀을때 Activity_edit 로 화면전환
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +95,9 @@ public class MainActivity extends AppCompatActivity
                 finish();
             }
         });
+        //-------------------------------
 
+        //------------김희주------------
         //리스트 누르면 Activity Memo 로 이동
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -105,7 +110,9 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        //-------------------------------
 
+        //------------조성주------------
         //material calendar month 옵션 설정
         widget.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -116,6 +123,7 @@ public class MainActivity extends AppCompatActivity
 //                .setFirstDayOfWeek(Calendar.SUNDAY)
 //                .setCalendarDisplayMode(CalendarMode.WEEKS)
 //                .commit();
+        //-------------------------------
     }
 
     //리스트 초기화 - 김희주
@@ -125,6 +133,7 @@ public class MainActivity extends AppCompatActivity
         myAdapter.notifyDataSetChanged();
     }
 
+    //------------조성주------------
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         String year =Integer.toString(date.getYear());
@@ -134,4 +143,5 @@ public class MainActivity extends AppCompatActivity
         MainActivity.date = year+month+day;
         InitializeList();
     }
+    //-------------------------------
 }

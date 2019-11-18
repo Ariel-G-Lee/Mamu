@@ -59,6 +59,8 @@ public class MyAdapter extends BaseAdapter {
 
         byte[] bytearrays = values.get(position).getAsByteArray("Image");
 
+        //------------이가빈------------
+
         String url = values.get(position).getAsString("YoutubeUrl");
 
         // Youtube url이 저장되어 있지 않을 경우 첨부한 사진을 listView의 imageView에 띄운다.
@@ -75,8 +77,7 @@ public class MyAdapter extends BaseAdapter {
             Glide.with(content).load(thumnailUrl).into(imageView);
         }
 
-
-        //Bitmap bitmap = utils.ByteArraytoBitmap(sample.get(position).getAsByteArray("Image"));
+        //-------------------------------
 
         name.setText(values.get(position).getAsString("MemoTitle"));
         content.setText(values.get(position).getAsString("MemoContents"));

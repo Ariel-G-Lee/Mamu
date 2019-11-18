@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--Detail Layout : activity_main.xml
-    @author 이가빈-->
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detail Layout : activity_main.xml
+    @author 이가빈, 허윤서, 강주혜-->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
