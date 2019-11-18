@@ -80,7 +80,7 @@ public class MemoActivity extends AppCompatActivity {
         ContentValues memo =  handler.selectOne(key);
 
         //set title
-        setTitle(date);
+        setTitle(dateformat(date));
 
         youTubePlayerFragment = (YouTubePlayerSupportFragmentX) getSupportFragmentManager()
                 .findFragmentById(R.id.youtubeFragment);
@@ -186,5 +186,9 @@ public class MemoActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(MemoActivity.this,MainActivity.class));
         finish();
+    }
+
+    public String dateformat(String date){
+        return date.substring(0,4)+"년 "+date.substring(4,6)+"월 "+date.substring(6)+"일";
     }
 }

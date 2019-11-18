@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         String year =Integer.toString(date.getYear());
-        String month = Integer.toString(date.getMonth());
+        String month = Integer.toString(date.getMonth()+1);
         String day = Integer.toString(date.getDay());
 
         MainActivity.date = year+month+day;

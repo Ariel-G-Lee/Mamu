@@ -32,10 +32,12 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:gravity="center_vertical"
             android:layout_toLeftOf="@+id/btnSave"
-            android:hint="제목 작성" />
+            android:hint="제목 작성"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"/>
     </RelativeLayout>
 
     <!--URL 작성-->
@@ -94,6 +96,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
+            android:textSize="25sp"
             android:inputType="textMultiLine" />
     </ScrollView>
 

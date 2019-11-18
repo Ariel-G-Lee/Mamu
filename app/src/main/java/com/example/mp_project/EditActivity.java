@@ -86,7 +86,7 @@ public class EditActivity extends AppCompatActivity {
         ContentValues memo =  handler.selectOne(key);
 
         //set title
-        setTitle(date);
+        setTitle(dateformat(date));
 
         //set data
         if(key>0){
@@ -214,5 +214,9 @@ public class EditActivity extends AppCompatActivity {
         intent.putExtra("date", date);
         startActivity(intent);
         finish();
+    }
+
+    public String dateformat(String date){
+        return date.substring(0,4)+"년 "+date.substring(4,6)+"월 "+date.substring(6)+"일";
     }
 }
