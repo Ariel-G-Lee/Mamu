@@ -53,9 +53,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
         //타이틀 이름 삭제
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //배경 색상 흰색으로 설정
-        mToolbar.setBackgroundColor(Color.WHITE);
-        mCollapseTooBar.setBackgroundColor(Color.WHITE);
         //-------------------------------
 
 
