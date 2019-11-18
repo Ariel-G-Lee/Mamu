@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity
         widget.setOnDateChangedListener(this);
         //-------------------------------
 
+        widget.setHeaderTextAppearance(R.style.CalendarWidgetHeader);
+        widget.setWeekDayTextAppearance(R.style.CalendarWidgetDayText);
+
         date = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
 
         //------------허윤서------------
