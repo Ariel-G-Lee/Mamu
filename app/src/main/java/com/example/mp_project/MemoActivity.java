@@ -36,6 +36,7 @@ public class MemoActivity extends AppCompatActivity {
     byte[] bytearrays;
     int key;
     String date;
+    int memCode;
 
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
     private YouTubePlayerSupportFragmentX youTubePlayerFragment;
@@ -75,9 +76,11 @@ public class MemoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         key = intent.getExtras().getInt("key");
         date = intent.getExtras().getString("date");
+        memCode = intent.getExtras().getInt("userCode");
+
 
         //memo 정보 불러오기
-        ContentValues memo =  handler.selectOne(key);
+        ContentValues memo =  handler.selectOne(key,memCode);
 
         //set title
         setTitle(dateformat(date));
@@ -121,13 +124,16 @@ public class MemoActivity extends AppCompatActivity {
                         Intent intent = new Intent(MemoActivity.this, EditActivity.class);
                         intent.putExtra("key", key); //key값 전달
                         intent.putExtra("date", date);
+                        intent.putExtra("userCode",memCode);
                         startActivity(intent);
                         finish();
                         break;
                     case "삭제":
                         //지우고 메인 화면으로 돌아감
                         handler.delete(key);
-                        startActivity(new Intent(MemoActivity.this,MainActivity.class));
+                        Intent i = new Intent(MemoActivity.this, MainActivity.class);
+                        i.putExtra("userCode",memCode);
+                        startActivity(i);
                         finish();
                         break;
                     case "취소":
@@ -173,7 +179,9 @@ public class MemoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
-                startActivity(new Intent(MemoActivity.this,MainActivity.class));
+                Intent i = new Intent(MemoActivity.this, MainActivity.class);
+                i.putExtra("userCode",memCode);
+                startActivity(i);
                 finish();
                 return true;
             }
@@ -184,7 +192,9 @@ public class MemoActivity extends AppCompatActivity {
     //물리적 뒤로가기 버튼 메소드
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(MemoActivity.this,MainActivity.class));
+        Intent i = new Intent(MemoActivity.this, MainActivity.class);
+        i.putExtra("userCode",memCode);
+        startActivity(i);
         finish();
     }
 

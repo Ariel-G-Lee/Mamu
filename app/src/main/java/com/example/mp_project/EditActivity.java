@@ -45,6 +45,7 @@ public class EditActivity extends AppCompatActivity {
 
     int key;
     String date;
+    int memCode;
 
     private static final int PICK_IMAGE = 1;
     private static final int GALLERY_PERMISSION = 2;
@@ -81,9 +82,10 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         key = intent.getExtras().getInt("key");
         date = intent.getExtras().getString("date");
+        memCode = intent.getExtras().getInt("userCode");
 
         //memo 정보 불러오기
-        ContentValues memo =  handler.selectOne(key);
+        ContentValues memo =  handler.selectOne(key,memCode);
 
         //set title
         setTitle(dateformat(date));
@@ -107,6 +109,7 @@ public class EditActivity extends AppCompatActivity {
                 values.put("MemoTitle",editTitle.getText().toString());
                 values.put("YoutubeUrl",editURL.getText().toString());
                 values.put("Image", bytearrays); // 사진 : bytearrays
+                values.put("userCode",memCode);
 
                 if(key<0){ // 생성-저장
                     key = (int)handler.insert(values);
@@ -119,6 +122,7 @@ public class EditActivity extends AppCompatActivity {
                 Intent i = new Intent(EditActivity.this, MemoActivity.class);
                 i.putExtra("key", key); //key값 전달
                 i.putExtra("date", date);
+                i.putExtra("userCode",memCode);
                 startActivity(i);
                 //현재 액티비티 종료하고 넘어가기
                 finish();
@@ -174,7 +178,7 @@ public class EditActivity extends AppCompatActivity {
                 pickImg();
             }else{
                 //권한 설정 승인하지 않았을 때
-                Toast.makeText(getApplicationContext(), "권한설정이 안됐습니다~~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "권한설정이 필요합니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -198,6 +202,7 @@ public class EditActivity extends AppCompatActivity {
                 Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 intent.putExtra("key",key); //key값 전달
                 intent.putExtra("date", date);
+                intent.putExtra("userCode",memCode);
                 startActivity(intent);
                 finish();
                 return true;
@@ -212,6 +217,7 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = new Intent(EditActivity.this, MainActivity.class);
         intent.putExtra("key",key); //key값 전달
         intent.putExtra("date", date);
+        intent.putExtra("userCode",memCode);
         startActivity(intent);
         finish();
     }

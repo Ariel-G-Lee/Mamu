@@ -20,6 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COLUMN_YTBURL = "YoutubeUrl";
     static final String COLUMN_IMG = "Image";
     static final String COLUMN_USEYN = "UseYN";
+    static final String USER_CODE = "userCode";
 
     //Constructor
     public DBHelper(Context context){
@@ -35,7 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COLUMN_TITLE + " TEXT,"
                 + COLUMN_YTBURL + " TEXT,"
                 + COLUMN_IMG + " BLOB,"
-                + COLUMN_USEYN+ " TEXT"
+                + COLUMN_USEYN+ " TEXT,"
+                + USER_CODE+" TEXT"
                 + ");";
 
         db.execSQL(sql);

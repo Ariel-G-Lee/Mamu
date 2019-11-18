@@ -50,13 +50,13 @@ public class DBHandler {
         values.put(dbHelper.COLUMN_USEYN,"Y");
 
         String sql = "INSERT INTO " + MemoTableName+" ("
-//                + dbHelper.COLUMN_ID +","
                 + dbHelper.COLUMN_DATE +","
                 + dbHelper.COLUMN_CONTENTS + ","
                 + dbHelper.COLUMN_TITLE + ","
                 + dbHelper.COLUMN_YTBURL + ","
                 + dbHelper.COLUMN_IMG + ","
-                + dbHelper.COLUMN_USEYN+ ") VALUES(?,?,?,?,?,?)";
+                + dbHelper.COLUMN_USEYN+","
+                + dbHelper.USER_CODE + ") VALUES(?,?,?,?,?,?,?)";
 
         SQLiteStatement insertStmt = db.compileStatement(sql);
         insertStmt.clearBindings();
@@ -66,6 +66,7 @@ public class DBHandler {
         insertStmt.bindString(4,values.getAsString("YoutubeUrl"));
         insertStmt.bindBlob(5,values.getAsByteArray("Image"));
         insertStmt.bindString(6,values.getAsString("UseYN"));
+        insertStmt.bindString(7,values.getAsString("userCode"));
 
         return insertStmt.executeInsert();
     }
@@ -118,11 +119,11 @@ public class DBHandler {
      * @param date (String)
      * @return ArrayList<ContentValues>
      */
-    public ArrayList<ContentValues> select(String date){
+    public ArrayList<ContentValues> select(String date, int memCode){
         ArrayList<ContentValues> list= new ArrayList<>();
 
-        String selection = dbHelper.COLUMN_DATE+"=? AND "+dbHelper.COLUMN_USEYN +"=?";
-        Cursor cursor = db.query(MemoTableName, null, selection, new String[]{date,"Y"}, null, null, null);
+        String sql = "SELECT * FROM " + MemoTableName + " WHERE " + dbHelper.COLUMN_DATE + "='" + date + "' AND " + dbHelper.COLUMN_USEYN + "='Y' AND " + dbHelper.USER_CODE +"="+memCode;
+        Cursor cursor = db.rawQuery(sql, null);
 
         if(!cursor.moveToFirst()){
             return list;
@@ -150,10 +151,10 @@ public class DBHandler {
      * @param key (int)
      * @return ContentValues 메모 정보가 담겨져 있음.
      */
-    public ContentValues selectOne(int key) {
+    public ContentValues selectOne(int key, int memCode) {
         ContentValues values = new ContentValues();
 
-        String sql = "SELECT * FROM " + MemoTableName + " WHERE " + dbHelper.COLUMN_ID + "=" + key + " AND " + dbHelper.COLUMN_USEYN + "='Y'";
+        String sql = "SELECT * FROM " + MemoTableName + " WHERE " + dbHelper.COLUMN_ID + "=" + key + " AND " + dbHelper.COLUMN_USEYN + "='Y' AND " + dbHelper.USER_CODE +"="+memCode;
         Cursor cursor = db.rawQuery(sql, null);
 
         if (!cursor.moveToFirst()) {
@@ -212,6 +213,7 @@ public class DBHandler {
 
         values.put("USER_ID", cursor.getString(cursor.getColumnIndex("USER_ID")));
         values.put("USER_PW", cursor.getString(cursor.getColumnIndex("USER_PW")));
+        values.put("USER_CODE", cursor.getInt(cursor.getColumnIndex("USER_CODE")));
 
         return values;
 

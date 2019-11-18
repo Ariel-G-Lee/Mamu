@@ -2,7 +2,6 @@ package com.example.mp_project;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     MyAdapter myAdapter;
     static String date;
     DBHandler handler;
+    int memCode;
 
 
     @Override
@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //-------------------------------
 
+        //------------김희주------------
+        Intent intent = getIntent();
+        memCode = intent.getExtras().getInt("userCode");
+        //-------------------------------
 
         //------------조성주------------
         MaterialCalendarView widget = findViewById(R.id.calendarView);
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         //------------허윤서------------
         //어댑터랑 리스트뷰xml이랑 연결
         listView = (ListView)findViewById(R.id.listView);
-        DataList = handler.select(date);
+        DataList = handler.select(date, memCode);
         myAdapter = new MyAdapter(this, DataList);
         listView.setAdapter(myAdapter);
         //-------------------------------
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 intent.putExtra("key",-1); //key값 전달 -1이면 생성, 그밖은 수정.
                 intent.putExtra("date",date);
+                intent.putExtra("userCode",memCode);
                 startActivity(intent);
                 finish();
             }
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, MemoActivity.class);
                 intent.putExtra("key",myAdapter.getItem(position).getAsInteger("Memo_ID")); //key값 전달
                 intent.putExtra("date", date);
+                intent.putExtra("userCode",memCode);
                 startActivity(intent);
                 finish();
 
@@ -117,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
     //리스트 초기화 - 김희주
     private void InitializeList() {
-        DataList = handler.select(date);
+        DataList = handler.select(date,memCode);
         myAdapter.setItem(DataList);
         myAdapter.notifyDataSetChanged();
     }

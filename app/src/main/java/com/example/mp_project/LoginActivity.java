@@ -84,7 +84,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{//로그인 성공 - 메인화면 이동
             Toast.makeText(getApplicationContext(), "로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("userCode",UserInfo.getAsInteger("USER_CODE"));
+            startActivity(intent);
             finish();
         }
     }
