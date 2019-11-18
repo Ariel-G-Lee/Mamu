@@ -112,7 +112,7 @@ public class EditActivity extends AppCompatActivity {
                     key = (int)handler.insert(values);
                     Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
                 }else{ // 수정
-                    key = (int)handler.update(key,values);
+                    handler.update(key,values);
                     Toast.makeText(getApplicationContext(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 //MemoActivity로 이동
