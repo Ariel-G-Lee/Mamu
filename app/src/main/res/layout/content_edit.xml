@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="25dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:layout_toLeftOf="@+id/btnSave"
             android:hint="제목 작성"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:inputType="textMultiLine" />
     </ScrollView>
 
