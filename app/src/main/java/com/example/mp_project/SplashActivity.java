@@ -1,5 +1,8 @@
 package com.example.mp_project;
-
+/**
+ * SplashActivity
+ * @author 이가빈
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
