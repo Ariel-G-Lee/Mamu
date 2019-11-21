@@ -29,21 +29,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     //DB가 처음으로 만들어질 때 불리는 메소드.
     public void onCreate(SQLiteDatabase db){
-        String sql = "CREATE TABLE " + MEMO_TABLE_NAME +" ("
-                + COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUMN_DATE +" TEXT NOT NULL,"
-                + COLUMN_CONTENTS + " TEXT,"
-                + COLUMN_TITLE + " TEXT,"
-                + COLUMN_YTBURL + " TEXT,"
-                + COLUMN_IMG + " BLOB,"
-                + COLUMN_USEYN+ " TEXT,"
-                + USER_CODE+" TEXT"
-                + ");";
-
-        db.execSQL(sql);
-
-        sql = "CREATE TABLE " + MEMBER_TABLE_NAME +" ("
-                + "USER_CODE INTEGER PRIMARY KEY AUTOINCREMENT,"
+        String sql = "CREATE TABLE " + MEMBER_TABLE_NAME +" ("
+                + USER_CODE+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "USER_ID TEXT NOT NULL,"
                 + "USER_PW TEXT NOT NULL,"
                 + "USER_NAME TEXT,"
@@ -52,9 +39,23 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "USER_USEYN TEXT"
                 + ");";
 
-
         db.execSQL(sql);
 
+        //db.execSQL("PRAGMA foreign_keys=ON;");
+
+        sql = "CREATE TABLE " + MEMO_TABLE_NAME +" ("
+                + COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_DATE +" TEXT NOT NULL,"
+                + COLUMN_CONTENTS + " TEXT,"
+                + COLUMN_TITLE + " TEXT,"
+                + COLUMN_YTBURL + " TEXT,"
+                + COLUMN_IMG + " BLOB,"
+                + COLUMN_USEYN+ " TEXT,"
+                + USER_CODE + " INTEGER,"
+                + "CONSTRAINT "+USER_CODE+" FOREIGN KEY("+USER_CODE+") REFERENCES "+MEMBER_TABLE_NAME+"("+USER_CODE+")"
+                + ");";
+
+        db.execSQL(sql);
     }
 
     //DB가 이미 오픈되어 있을 때 불리는 메소드

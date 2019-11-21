@@ -189,7 +189,7 @@ public class DBHandler {
      * @return 성공: 삭제된 열의 번호(long), 실패: -1
      */
     public long UserDelete(int key){
-        String where = "USER_CODE = " + key;
+        String where = dbHelper.USER_CODE+" = " + key;
 
         ContentValues values = new ContentValues();
         values.put(dbHelper.COLUMN_USEYN,"N");
@@ -213,7 +213,7 @@ public class DBHandler {
 
         values.put("USER_ID", cursor.getString(cursor.getColumnIndex("USER_ID")));
         values.put("USER_PW", cursor.getString(cursor.getColumnIndex("USER_PW")));
-        values.put("USER_CODE", cursor.getInt(cursor.getColumnIndex("USER_CODE")));
+        values.put("USER_CODE", cursor.getInt(cursor.getColumnIndex(dbHelper.USER_CODE)));
 
         return values;
 
