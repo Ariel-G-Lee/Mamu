@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
@@ -31,11 +31,13 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
+            android:layout_margin="10dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:layout_toLeftOf="@+id/btnSave"
-            android:hint="제목 작성" />
+            android:hint="제목 작성"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"/>
     </RelativeLayout>
 
     <!--URL 작성-->
@@ -74,7 +76,7 @@
             android:text="사진첨부하기"/>
     </RelativeLayout>
 
-    <!--  이미지뷰  -->
+    <!--  이미지뷰 : 김희주 -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -94,6 +96,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
+            android:textSize="20sp"
             android:inputType="textMultiLine" />
     </ScrollView>
 

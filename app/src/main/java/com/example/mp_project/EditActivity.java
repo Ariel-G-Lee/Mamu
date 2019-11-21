@@ -45,6 +45,7 @@ public class EditActivity extends AppCompatActivity {
 
     int key;
     String date;
+    int memCode;
 
     private static final int PICK_IMAGE = 1;
     private static final int GALLERY_PERMISSION = 2;
@@ -81,12 +82,13 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = getIntent();
         key = intent.getExtras().getInt("key");
         date = intent.getExtras().getString("date");
+        memCode = intent.getExtras().getInt("userCode");
 
         //memo 정보 불러오기
-        ContentValues memo =  handler.selectOne(key);
+        ContentValues memo =  handler.selectOne(key,memCode);
 
         //set title
-        setTitle(date);
+        setTitle(dateformat(date));
 
         //set data
         if(key>0){
@@ -107,18 +109,20 @@ public class EditActivity extends AppCompatActivity {
                 values.put("MemoTitle",editTitle.getText().toString());
                 values.put("YoutubeUrl",editURL.getText().toString());
                 values.put("Image", bytearrays); // 사진 : bytearrays
+                values.put("userCode",memCode);
 
                 if(key<0){ // 생성-저장
                     key = (int)handler.insert(values);
                     Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
                 }else{ // 수정
-                    key = (int)handler.update(key,values);
+                    handler.update(key,values);
                     Toast.makeText(getApplicationContext(), "수정되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 //MemoActivity로 이동
                 Intent i = new Intent(EditActivity.this, MemoActivity.class);
                 i.putExtra("key", key); //key값 전달
                 i.putExtra("date", date);
+                i.putExtra("userCode",memCode);
                 startActivity(i);
                 //현재 액티비티 종료하고 넘어가기
                 finish();
@@ -174,7 +178,7 @@ public class EditActivity extends AppCompatActivity {
                 pickImg();
             }else{
                 //권한 설정 승인하지 않았을 때
-                Toast.makeText(getApplicationContext(), "권한설정이 안됐습니다~~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "권한설정이 필요합니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -194,11 +198,31 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작(edit화면에서 뒤로가기 누르면 메인으로 가야함)
+                Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                intent.putExtra("key",key); //key값 전달
+                intent.putExtra("date", date);
+                intent.putExtra("userCode",memCode);
+                startActivity(intent);
                 finish();
                 return true;
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //물리적 뒤로가기 버튼 메소드
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditActivity.this, MainActivity.class);
+        intent.putExtra("key",key); //key값 전달
+        intent.putExtra("date", date);
+        intent.putExtra("userCode",memCode);
+        startActivity(intent);
+        finish();
+    }
+
+    public String dateformat(String date){
+        return date.substring(0,4)+"년 "+date.substring(4,6)+"월 "+date.substring(6)+"일";
     }
 }

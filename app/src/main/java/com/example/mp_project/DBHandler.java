@@ -17,13 +17,15 @@ import java.util.ArrayList;
 public class DBHandler {
     private DBHelper dbHelper;
     private SQLiteDatabase db;
-    private String TableName;
+    private String MemoTableName;
+    private String MemberTableName;
 
     //Constructor
     private DBHandler(Context context) throws SQLiteException {
         this.dbHelper = new DBHelper(context);
         this.db = dbHelper.getWritableDatabase();
-        this.TableName = dbHelper.getTableName();
+        this.MemoTableName = dbHelper.getMemoTableName();
+        this.MemberTableName = dbHelper.getMemberTableName();
     }
 
     //constructor 대신 이 메소드를 불러서 DBHandler을 사용함
@@ -47,14 +49,14 @@ public class DBHandler {
     public long insert(ContentValues values){
         values.put(dbHelper.COLUMN_USEYN,"Y");
 
-        String sql = "INSERT INTO " + TableName+" ("
-//                + dbHelper.COLUMN_ID +","
+        String sql = "INSERT INTO " + MemoTableName+" ("
                 + dbHelper.COLUMN_DATE +","
                 + dbHelper.COLUMN_CONTENTS + ","
                 + dbHelper.COLUMN_TITLE + ","
                 + dbHelper.COLUMN_YTBURL + ","
                 + dbHelper.COLUMN_IMG + ","
-                + dbHelper.COLUMN_USEYN+ ") VALUES(?,?,?,?,?,?)";
+                + dbHelper.COLUMN_USEYN+","
+                + dbHelper.USER_CODE + ") VALUES(?,?,?,?,?,?,?)";
 
         SQLiteStatement insertStmt = db.compileStatement(sql);
         insertStmt.clearBindings();
@@ -64,6 +66,7 @@ public class DBHandler {
         insertStmt.bindString(4,values.getAsString("YoutubeUrl"));
         insertStmt.bindBlob(5,values.getAsByteArray("Image"));
         insertStmt.bindString(6,values.getAsString("UseYN"));
+        insertStmt.bindString(7,values.getAsString("userCode"));
 
         return insertStmt.executeInsert();
     }
@@ -81,7 +84,7 @@ public class DBHandler {
         ContentValues values = new ContentValues();
         values.put(dbHelper.COLUMN_USEYN,"N");
 
-        return db.update(TableName, values, where, null); //간접삭제
+        return db.update(MemoTableName, values, where, null); //간접삭제
     }
 
     /**
@@ -92,7 +95,7 @@ public class DBHandler {
      * @return 성공: 수정된 열의 번호(long), 실패: -1
      */
     public long update(int key, ContentValues values){
-        String sql = "UPDATE " + TableName+" SET ("
+        String sql = "UPDATE " + MemoTableName+" SET ("
                 + dbHelper.COLUMN_DATE +", "
                 + dbHelper.COLUMN_CONTENTS+","
                 + dbHelper.COLUMN_TITLE+","
@@ -116,11 +119,11 @@ public class DBHandler {
      * @param date (String)
      * @return ArrayList<ContentValues>
      */
-    public ArrayList<ContentValues> select(String date){
+    public ArrayList<ContentValues> select(String date, int memCode){
         ArrayList<ContentValues> list= new ArrayList<>();
 
-        String selection = dbHelper.COLUMN_DATE+"=? AND "+dbHelper.COLUMN_USEYN +"=?";
-        Cursor cursor = db.query(TableName, null, selection, new String[]{date,"Y"}, null, null, null);
+        String sql = "SELECT * FROM " + MemoTableName + " WHERE " + dbHelper.COLUMN_DATE + "='" + date + "' AND " + dbHelper.COLUMN_USEYN + "='Y' AND " + dbHelper.USER_CODE +"="+memCode;
+        Cursor cursor = db.rawQuery(sql, null);
 
         if(!cursor.moveToFirst()){
             return list;
@@ -146,27 +149,73 @@ public class DBHandler {
     /**
      * key값을 이용해 해당 메모정보를 반환.
      * @param key (int)
-     * @return ContentValues 메모 정보가 담겨져 있음. HashMap.
+     * @return ContentValues 메모 정보가 담겨져 있음.
      */
-    public ContentValues selectOne(int key){
+    public ContentValues selectOne(int key, int memCode) {
         ContentValues values = new ContentValues();
 
-        String sql = "SELECT * FROM "+TableName+" WHERE "+dbHelper.COLUMN_ID+"="+key+" AND "+dbHelper.COLUMN_USEYN+"='Y'";
-        Cursor cursor = db.rawQuery(sql,null);
+        String sql = "SELECT * FROM " + MemoTableName + " WHERE " + dbHelper.COLUMN_ID + "=" + key + " AND " + dbHelper.COLUMN_USEYN + "='Y' AND " + dbHelper.USER_CODE +"="+memCode;
+        Cursor cursor = db.rawQuery(sql, null);
 
-        if(!cursor.moveToFirst()){
+        if (!cursor.moveToFirst()) {
             return values;
         }
 
-        values.put("Memo_ID",cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
-        values.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
-        values.put("MemoContents",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
-        values.put("MemoTitle",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
-        values.put("YoutubeUrl",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
-        values.put("Image",cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
-        values.put("UseYN",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
+        values.put("Memo_ID", cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
+        values.put("CreationDate", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
+        values.put("MemoContents", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
+        values.put("MemoTitle", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
+        values.put("YoutubeUrl", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
+        values.put("Image", cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
+        values.put("UseYN", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
 
         return values;
+
     }
 
+    /**
+     * 회원정보 생성
+     * @param values (ContentValues - 여기서 키값은 어트리뷰트명과 동일)
+     * @return 성공: 삽입된 열의 번호(long), 실패: -1
+     */
+    public long UserSignin(ContentValues values){
+        values.put("USER_USEYN","Y");
+        return db.insert(MemberTableName,null,values);
+    }
+
+    /**
+     * 회원정보 삭제
+     * @param key (int)
+     * @return 성공: 삭제된 열의 번호(long), 실패: -1
+     */
+    public long UserDelete(int key){
+        String where = "USER_CODE = " + key;
+
+        ContentValues values = new ContentValues();
+        values.put(dbHelper.COLUMN_USEYN,"N");
+
+        return db.update(MemoTableName, values, where, null); //간접삭제
+    }
+
+    /**
+     * 로그인 위해 회원 정보(아이디, 비밀번호)를 가져오는 메소드
+     * @param member_id (String)
+     * @return ContentValues
+     */
+    public ContentValues selectMember(String member_id){
+        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ MemberTableName +" WHERE USER_ID='"+member_id+"'", null);
+        if(!cursor.moveToFirst()){
+            //아이디 없는 경우
+            return values;
+        }
+
+        values.put("USER_ID", cursor.getString(cursor.getColumnIndex("USER_ID")));
+        values.put("USER_PW", cursor.getString(cursor.getColumnIndex("USER_PW")));
+        values.put("USER_CODE", cursor.getInt(cursor.getColumnIndex("USER_CODE")));
+
+        return values;
+
+    }
 }

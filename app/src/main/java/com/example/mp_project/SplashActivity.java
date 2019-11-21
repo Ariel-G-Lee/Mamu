@@ -1,0 +1,34 @@
+package com.example.mp_project;
+/**
+ * SplashActivity
+ * @author 이가빈
+ */
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+
+import androidx.annotation.Nullable;
+
+public class SplashActivity extends Activity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_splash);
+
+        Handler hd = new Handler();
+        hd.postDelayed(new splashhandler(), 100000);
+    }
+    private class splashhandler implements Runnable{
+        public void run(){
+            startActivity(new Intent(getApplication(), LoginActivity.class));
+            SplashActivity.this.finish();
+        }
+    }
+    @Override
+    public void onBackPressed(){
+
+    }
+}

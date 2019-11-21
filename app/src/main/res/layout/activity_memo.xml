@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    tools:context=".MainActivity">
+    tools:context=".MemoActivity">
 
     <!-- 툴바 이용 -->
     <com.google.android.material.appbar.AppBarLayout
@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:backgroundTint="@color/colorMain"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"

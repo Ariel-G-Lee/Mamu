@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detail Layout : activity_login.xml
+    @author 김희주-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:layout_margin="30dp">
+
+    <LinearLayout
+        android:id="@+id/idpw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/login"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/inputid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="아이디" />
+
+        <EditText
+            android:id="@+id/inputpw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="password" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/colorAccent"
+        android:text="로그인">
+    </Button>
+
+    <Button
+        android:id="@+id/signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login"
+        android:text="회원가입">
+    </Button>
+
+</RelativeLayout>
