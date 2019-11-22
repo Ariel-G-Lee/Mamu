@@ -36,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "USER_ID TEXT NOT NULL,"
                 + "USER_PW TEXT NOT NULL,"
                 + "USER_NAME TEXT,"
+                + "USER_BIRTH TEXT,"
                 + "USER_PHONE TEXT,"
                 + "USER_ADDRESS TEXT,"
                 + "USER_USEYN TEXT"
