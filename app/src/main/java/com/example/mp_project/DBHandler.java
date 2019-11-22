@@ -51,22 +51,27 @@ public class DBHandler {
 
         String sql = "INSERT INTO " + MemoTableName+" ("
                 + dbHelper.COLUMN_DATE +","
-                + dbHelper.COLUMN_CONTENTS + ","
+                + dbHelper.USER_CODE + ","
                 + dbHelper.COLUMN_TITLE + ","
+                + dbHelper.COLUMN_CONTENTS + ","
+                + dbHelper.COLUMN_TAG + ","
+                + dbHelper.COLUMN_FEEL + ","
                 + dbHelper.COLUMN_YTBURL + ","
                 + dbHelper.COLUMN_IMG + ","
-                + dbHelper.COLUMN_USEYN+","
-                + dbHelper.USER_CODE + ") VALUES(?,?,?,?,?,?,?)";
+                + dbHelper.COLUMN_USEYN + ") VALUES(?,?,?,?,?,?,?,?,?)";
 
         SQLiteStatement insertStmt = db.compileStatement(sql);
         insertStmt.clearBindings();
-        insertStmt.bindString(1,values.getAsString("CreationDate"));
-        insertStmt.bindString(2,values.getAsString("MemoContents"));
-        insertStmt.bindString(3,values.getAsString("MemoTitle"));
-        insertStmt.bindString(4,values.getAsString("YoutubeUrl"));
-        insertStmt.bindBlob(5,values.getAsByteArray("Image"));
-        insertStmt.bindString(6,values.getAsString("UseYN"));
-        insertStmt.bindString(7,values.getAsString("userCode"));
+
+        insertStmt.bindString(1, values.getAsString("CreationDate"));
+        insertStmt.bindString(2, values.getAsString("userCode"));
+        insertStmt.bindString(3, values.getAsString("MemoTitle"));
+        insertStmt.bindString(4, values.getAsString("MemoContents"));
+        insertStmt.bindString(5, values.getAsString("MemoTag"));
+        insertStmt.bindString(6, values.getAsString("MemoTitle"));
+        insertStmt.bindString(7, values.getAsString("YoutubeUrl"));
+        insertStmt.bindBlob(8, values.getAsByteArray("Image"));
+        insertStmt.bindString(9, values.getAsString("UseYN"));
 
         return insertStmt.executeInsert();
     }
@@ -97,19 +102,24 @@ public class DBHandler {
     public long update(int key, ContentValues values){
         String sql = "UPDATE " + MemoTableName+" SET ("
                 + dbHelper.COLUMN_DATE +", "
-                + dbHelper.COLUMN_CONTENTS+","
                 + dbHelper.COLUMN_TITLE+","
+                + dbHelper.COLUMN_CONTENTS+","
+                + dbHelper.COLUMN_TAG+","
+                + dbHelper.COLUMN_FEEL+","
                 + dbHelper.COLUMN_YTBURL+","
-                + dbHelper.COLUMN_IMG+") = (?, ?, ?, ?, ?)"
+                + dbHelper.COLUMN_IMG+") = (?, ?, ?, ?, ?, ?, ?)"
                 +" WHERE "+ dbHelper.COLUMN_ID +"="+key;
 
         SQLiteStatement updateStmt = db.compileStatement(sql);
         updateStmt.clearBindings();
-        updateStmt.bindString(1,values.getAsString("CreationDate"));
-        updateStmt.bindString(2,values.getAsString("MemoContents"));
-        updateStmt.bindString(3,values.getAsString("MemoTitle"));
-        updateStmt.bindString(4,values.getAsString("YoutubeUrl"));
-        updateStmt.bindBlob(5,values.getAsByteArray("Image"));
+
+        updateStmt.bindString(1, values.getAsString("CreationDate"));
+        updateStmt.bindString(2, values.getAsString("MemoTitle"));
+        updateStmt.bindString(3, values.getAsString("MemoContents"));
+        updateStmt.bindString(4, values.getAsString("MemoTag"));
+        updateStmt.bindString(5, values.getAsString("MemoFeel"));
+        updateStmt.bindString(6, values.getAsString("YoutubeUrl"));
+        updateStmt.bindBlob(7, values.getAsByteArray("Image"));
 
         return updateStmt.executeUpdateDelete();
     }
@@ -130,17 +140,19 @@ public class DBHandler {
         }
 
         while(true){
-            ContentValues tmp = new ContentValues();
+            ContentValues values = new ContentValues();
 
-            tmp.put("Memo_ID",cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
-            tmp.put("CreationDate",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
-            tmp.put("MemoContents",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
-            tmp.put("MemoTitle",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
-            tmp.put("YoutubeUrl",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
-            tmp.put("Image",cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
-            tmp.put("UseYN",cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
+            values.put("Memo_ID", cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
+            values.put("CreationDate", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
+            values.put("MemoTitle", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
+            values.put("MemoContents", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
+            values.put("MemoTag", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TAG)));
+            values.put("MemoFeel", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_FEEL)));
+            values.put("YoutubeUrl", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
+            values.put("Image", cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
+            values.put("UseYN", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
 
-            list.add(tmp);
+            list.add(values);
             if(!cursor.moveToNext()) break;
         }
         return list;
@@ -163,8 +175,10 @@ public class DBHandler {
 
         values.put("Memo_ID", cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
         values.put("CreationDate", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
-        values.put("MemoContents", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
         values.put("MemoTitle", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
+        values.put("MemoContents", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
+        values.put("MemoTag", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TAG)));
+        values.put("MemoFeel", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_FEEL)));
         values.put("YoutubeUrl", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
         values.put("Image", cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
         values.put("UseYN", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));

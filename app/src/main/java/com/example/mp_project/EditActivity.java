@@ -46,6 +46,8 @@ public class EditActivity extends AppCompatActivity {
     int key;
     String date;
     int memCode;
+    String tag = "";
+    String feel = "";
 
     private static final int PICK_IMAGE = 1;
     private static final int GALLERY_PERMISSION = 2;
@@ -105,8 +107,10 @@ public class EditActivity extends AppCompatActivity {
             public void onClick(View v){
                 ContentValues values = new ContentValues();
                 values.put("CreationDate", date);
-                values.put("MemoContents",editMemo.getText().toString());
                 values.put("MemoTitle",editTitle.getText().toString());
+                values.put("MemoContents",editMemo.getText().toString());
+                values.put("MemoTag", tag);
+                values.put("MemoFeel", feel);
                 values.put("YoutubeUrl",editURL.getText().toString());
                 values.put("Image", bytearrays); // 사진 : bytearrays
                 values.put("userCode",memCode);

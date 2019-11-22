@@ -19,8 +19,10 @@ public class DBHelper extends SQLiteOpenHelper {
     static final String COLUMN_TITLE = "MemoTitle";
     static final String COLUMN_YTBURL = "YoutubeUrl";
     static final String COLUMN_IMG = "Image";
-    static final String COLUMN_USEYN = "UseYN";
     static final String USER_CODE = "userCode";
+    static final String COLUMN_TAG = "MemoTag";
+    static final String COLUMN_FEEL = "MemoFeel";
+    static final String COLUMN_USEYN = "UseYN";
 
     //Constructor
     public DBHelper(Context context){
@@ -45,13 +47,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         sql = "CREATE TABLE " + MEMO_TABLE_NAME +" ("
                 + COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + USER_CODE + " INTEGER,"
                 + COLUMN_DATE +" TEXT NOT NULL,"
-                + COLUMN_CONTENTS + " TEXT,"
                 + COLUMN_TITLE + " TEXT,"
+                + COLUMN_CONTENTS + " TEXT,"
+                + COLUMN_TAG + " TEXT,"
+                + COLUMN_FEEL + " TEXT,"
                 + COLUMN_YTBURL + " TEXT,"
                 + COLUMN_IMG + " BLOB,"
                 + COLUMN_USEYN+ " TEXT,"
-                + USER_CODE + " INTEGER,"
                 + "CONSTRAINT "+USER_CODE+" FOREIGN KEY("+USER_CODE+") REFERENCES "+MEMBER_TABLE_NAME+"("+USER_CODE+")"
                 + ");";
 
