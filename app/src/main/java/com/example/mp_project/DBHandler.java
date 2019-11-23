@@ -68,7 +68,7 @@ public class DBHandler {
         insertStmt.bindString(3, values.getAsString("MemoTitle"));
         insertStmt.bindString(4, values.getAsString("MemoContents"));
         insertStmt.bindString(5, values.getAsString("MemoTag"));
-        insertStmt.bindString(6, values.getAsString("MemoTitle"));
+        insertStmt.bindString(6, values.getAsString("MemoFeel"));
         insertStmt.bindString(7, values.getAsString("YoutubeUrl"));
         insertStmt.bindBlob(8, values.getAsByteArray("Image"));
         insertStmt.bindString(9, values.getAsString("UseYN"));
