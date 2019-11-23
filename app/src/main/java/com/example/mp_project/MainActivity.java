@@ -2,14 +2,22 @@ package com.example.mp_project;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.SearchView;
+
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +44,8 @@ public class MainActivity extends AppCompatActivity
     static String date;
     DBHandler handler;
     int memCode;
+    SearchView searchView;
+    MenuItem menuItem;
 
 
     @Override
@@ -62,12 +72,12 @@ public class MainActivity extends AppCompatActivity
 
         //------------조성주------------
         MaterialCalendarView widget = findViewById(R.id.calendarView);
-//        MaterialCalendarView widgetWeek = findViewById(R.id.calendarViewWeek);
 
         Calendar calendar = Calendar.getInstance();
 
         widget.setDateSelected(calendar.getTime(), true);
         widget.setOnDateChangedListener(this);
+        widget.setBackgroundColor(Color.WHITE);
         //-------------------------------
 
         widget.setHeaderTextAppearance(R.style.CalendarWidgetHeader);
@@ -142,4 +152,45 @@ public class MainActivity extends AppCompatActivity
         InitializeList();
     }
     //-------------------------------
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+        //search_menu.xml 등록
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.search_menu, menu);
+        menuItem = menu.findItem(R.id.search);
+        //menuItem을 이용해서 SearchView 변수 생성
+        searchView = (SearchView)menuItem.getActionView();
+        //확인 버튼 활성화
+        searchView.setSubmitButtonEnabled(true);
+        //입력 글자 색 변경
+//        SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
+//        searchAutoComplete.setHintTextColor(Color.LTGRAY);
+//        searchAutoComplete.setTextColor(Color.BLACK);
+
+//        super.onCreateOptionsMenu(menu);
+
+        //SearchView의 검색 이벤트
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            //검색버튼을 눌렀을 경우
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this, "검색합니다~", Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+            //텍스트가 바뀔때마다 호출
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(MainActivity.this, "검색쓰 검색쓰", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        return true;
+    }
 }

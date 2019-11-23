@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,14 +42,16 @@ public class EditActivity extends AppCompatActivity {
     EditText editTitle;
     EditText editURL;
     EditText editMemo;
+    EditText editTag;
     ImageView imgView;
+    RadioGroup rg;
+    RadioButton feelBtn;
     byte[] bytearrays = {};
 
     int key;
     String date;
     int memCode;
-    String tag = "";
-    String feel = "";
+    String feel;
 
     private static final int PICK_IMAGE = 1;
     private static final int GALLERY_PERMISSION = 2;
@@ -66,13 +70,39 @@ public class EditActivity extends AppCompatActivity {
         //뒤로가기 버튼 활성화
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        rg = (RadioGroup)findViewById(R.id.feelingGroup);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.f1 : feel = "R.id.f1";
+                        feelBtn = (RadioButton)findViewById(checkedId);
+                        break;
+                    case R.id.f2 : feel = "R.id.f2";
+                        feelBtn = (RadioButton)findViewById(checkedId);
+                        break;
+                    case R.id.f3 : feel = "R.id.f3";
+                        feelBtn = (RadioButton)findViewById(checkedId);
+                        break;
+                    case R.id.f4 : feel = "R.id.f4";
+                        feelBtn = (RadioButton)findViewById(checkedId);
+                        break;
+                    case R.id.f5 : feel = "R.id.f5";
+                        feelBtn = (RadioButton)findViewById(checkedId);
+                        break;
+                }
+            }
+        });
+
         //View 연결
         editTitle = (EditText)findViewById(R.id.editTitle);
         editURL = (EditText)findViewById(R.id.editURL);
         editMemo = (EditText)findViewById(R.id.editMemo);
+        editTag = (EditText)findViewById(R.id.tag);
         imgBtn = (Button)findViewById(R.id.btnAdd);
         saveBtn = (Button)findViewById(R.id.btnSave);
         imgView = (ImageView)findViewById(R.id.imageView);
+
 
         //handler open
         handler = DBHandler.open(this);
@@ -97,6 +127,7 @@ public class EditActivity extends AppCompatActivity {
             editTitle.setText(memo.getAsString("MemoTitle"));
             editURL.setText(memo.getAsString("YoutubeUrl"));
             editMemo.setText(memo.getAsString("MemoContents"));
+            editTag.setText(memo.getAsString("MemoTag"));
             bytearrays = memo.getAsByteArray("Image");
             imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
         }
@@ -109,8 +140,8 @@ public class EditActivity extends AppCompatActivity {
                 values.put("CreationDate", date);
                 values.put("MemoTitle",editTitle.getText().toString());
                 values.put("MemoContents",editMemo.getText().toString());
-                values.put("MemoTag", tag);
-                values.put("MemoFeel", feel);
+                values.put("MemoTag", editTag.getText().toString());
+                values.put("MemoFeel", "ddd");
                 values.put("YoutubeUrl",editURL.getText().toString());
                 values.put("Image", bytearrays); // 사진 : bytearrays
                 values.put("userCode",memCode);
