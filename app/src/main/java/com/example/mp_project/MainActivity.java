@@ -180,14 +180,24 @@ public class MainActivity extends AppCompatActivity
             //검색버튼을 눌렀을 경우
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, "검색합니다~", Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "검색합니다~", Toast.LENGTH_LONG).show();
                 return true;
             }
 
             //텍스트가 바뀔때마다 호출
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(MainActivity.this, "검색쓰 검색쓰", Toast.LENGTH_LONG).show();
+                if(newText.length()>0){
+                    ListView listView = (ListView)findViewById(R.id.listView);
+                    DataList = handler.searchMemo(newText, memCode);
+                    myAdapter = new MyAdapter(MainActivity.this, DataList);
+                    listView.setAdapter(myAdapter);
+                } else {
+                    ListView listView = (ListView)findViewById(R.id.listView);
+                    DataList = handler.select(date, memCode);
+                    myAdapter = new MyAdapter(MainActivity.this, DataList);
+                    listView.setAdapter(myAdapter);
+                }
                 return true;
             }
         });

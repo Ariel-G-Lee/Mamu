@@ -232,4 +232,33 @@ public class DBHandler {
         return values;
 
     }
+
+    public ArrayList<ContentValues> searchMemo(String tag, int memCode){
+        ArrayList<ContentValues> list= new ArrayList<>();
+
+        String sql = "SELECT * FROM " + MemoTableName + " WHERE " + dbHelper.COLUMN_TAG + "='" + tag + "' AND " + dbHelper.COLUMN_USEYN + "='Y' AND " + dbHelper.USER_CODE +"="+memCode;
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if(!cursor.moveToFirst()){
+            return list;
+        }
+
+        while(true){
+            ContentValues values = new ContentValues();
+
+            values.put("Memo_ID", cursor.getInt(cursor.getColumnIndex(dbHelper.COLUMN_ID)));
+            values.put("CreationDate", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_DATE)));
+            values.put("MemoTitle", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TITLE)));
+            values.put("MemoContents", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_CONTENTS)));
+            values.put("MemoTag", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_TAG)));
+            values.put("MemoFeel", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_FEEL)));
+            values.put("YoutubeUrl", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_YTBURL)));
+            values.put("Image", cursor.getBlob(cursor.getColumnIndex(dbHelper.COLUMN_IMG)));
+            values.put("UseYN", cursor.getString(cursor.getColumnIndex(dbHelper.COLUMN_USEYN)));
+
+            list.add(values);
+            if(!cursor.moveToNext()) break;
+        }
+        return list;
+    }
 }

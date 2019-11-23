@@ -70,6 +70,7 @@ public class EditActivity extends AppCompatActivity {
         //뒤로가기 버튼 활성화
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //라디오그룹 이용 기분 이모티콘 설정
         rg = (RadioGroup)findViewById(R.id.feelingGroup);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

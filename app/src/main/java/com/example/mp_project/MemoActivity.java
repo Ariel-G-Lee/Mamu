@@ -113,6 +113,7 @@ public class MemoActivity extends AppCompatActivity {
                 //set youtube player
                 initializeYoutubePlayer(youTubePlayerFragment);
             }
+            //기분 이모티콘이 입력된 경우에만 해당 이미지 표시
             if(!memo.getAsString("MemoFeel").equals("")){
                 String fNum = memo.getAsString("MemoFeel").substring(0,2);
                 switch (fNum){
@@ -128,6 +129,7 @@ public class MemoActivity extends AppCompatActivity {
                         break;
                 }
             }
+            //Tag를 입력한 경우에만 태그 표시와 함께 내용 표시
             if(!memo.getAsString("MemoTag").equals("")){
                 tagImg.setImageResource(R.drawable.hashtag);
                 tag.setText(memo.getAsString("MemoTag"));
