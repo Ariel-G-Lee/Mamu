@@ -24,19 +24,29 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/menu"
             android:onClick="mOnClick"/>
+
+        <!-- 기분 아이콘-->
+        <ImageView
+            android:id="@+id/feelIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"/>
+
         <!--제목-->
         <TextView
             android:id="@+id/titleView"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_toRightOf="@+id/feelIcon"
             android:gravity="center_vertical"
-            android:layout_toLeftOf="@+id/btnEdit"
-            android:textSize="25sp"
             android:text="제목 표시되는 곳"
-            android:textStyle="bold"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:textSize="25sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <!--유튜브 영상 재생 프래그먼트-->
@@ -63,6 +73,31 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
             </ImageView>
+
+            <!--입력한 TAG 표시-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/hashtagImg"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true" />
+
+                <TextView
+                    android:id="@+id/mTag"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/hashtagImg"
+                    android:textSize="18dp"/>
+
+            </RelativeLayout>
+
             <!--메모 내용 -->
             <TextView
                 android:id="@+id/contentView"

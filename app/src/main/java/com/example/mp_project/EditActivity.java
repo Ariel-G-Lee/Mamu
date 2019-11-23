@@ -51,7 +51,7 @@ public class EditActivity extends AppCompatActivity {
     int key;
     String date;
     int memCode;
-    String feel;
+    String feel="";
 
     private static final int PICK_IMAGE = 1;
     private static final int GALLERY_PERMISSION = 2;
@@ -74,21 +74,17 @@ public class EditActivity extends AppCompatActivity {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.f1 : feel = "R.id.f1";
-                        feelBtn = (RadioButton)findViewById(checkedId);
+
+                switch (checkedId){
+                    case R.id.f1 : feel = "f1"+Integer.toString(checkedId);
                         break;
-                    case R.id.f2 : feel = "R.id.f2";
-                        feelBtn = (RadioButton)findViewById(checkedId);
+                    case R.id.f2 : feel = "f2"+Integer.toString(checkedId);
                         break;
-                    case R.id.f3 : feel = "R.id.f3";
-                        feelBtn = (RadioButton)findViewById(checkedId);
+                    case R.id.f3 : feel = "f3"+Integer.toString(checkedId);
                         break;
-                    case R.id.f4 : feel = "R.id.f4";
-                        feelBtn = (RadioButton)findViewById(checkedId);
+                    case R.id.f4 : feel = "f4"+Integer.toString(checkedId);
                         break;
-                    case R.id.f5 : feel = "R.id.f5";
-                        feelBtn = (RadioButton)findViewById(checkedId);
+                    case R.id.f5 : feel = "f5"+Integer.toString(checkedId);
                         break;
                 }
             }
@@ -130,6 +126,11 @@ public class EditActivity extends AppCompatActivity {
             editTag.setText(memo.getAsString("MemoTag"));
             bytearrays = memo.getAsByteArray("Image");
             imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
+            if(!memo.getAsString("MemoFeel").equals("")){
+                int id = Integer.parseInt(memo.getAsString("MemoFeel").substring(2));
+                feelBtn = (RadioButton)findViewById(id);
+                feelBtn.setChecked(true);
+            }
         }
 
         //저장버튼
@@ -141,7 +142,7 @@ public class EditActivity extends AppCompatActivity {
                 values.put("MemoTitle",editTitle.getText().toString());
                 values.put("MemoContents",editMemo.getText().toString());
                 values.put("MemoTag", editTag.getText().toString());
-                values.put("MemoFeel", "ddd");
+                values.put("MemoFeel", feel);
                 values.put("YoutubeUrl",editURL.getText().toString());
                 values.put("Image", bytearrays); // 사진 : bytearrays
                 values.put("userCode",memCode);

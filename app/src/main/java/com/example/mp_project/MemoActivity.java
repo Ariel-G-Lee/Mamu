@@ -32,6 +32,9 @@ public class MemoActivity extends AppCompatActivity {
     TextView titleView;
     TextView contentView;
     ImageView imgView;
+    ImageView fIcon;
+    ImageView tagImg;
+    TextView tag;
 
     byte[] bytearrays;
     int key;
@@ -65,6 +68,10 @@ public class MemoActivity extends AppCompatActivity {
         titleView = (TextView)findViewById(R.id.titleView);
         contentView = (TextView)findViewById(R.id.contentView);
         imgView = (ImageView)findViewById(R.id.imageView);
+        fIcon = (ImageView)findViewById(R.id.feelIcon);
+        tagImg = (ImageView)findViewById(R.id.hashtagImg);
+        tag = (TextView)findViewById(R.id.mTag);
+
 
         //handler open
         handler = DBHandler.open(this);
@@ -105,6 +112,25 @@ public class MemoActivity extends AppCompatActivity {
                 videoId = array[array.length-1];
                 //set youtube player
                 initializeYoutubePlayer(youTubePlayerFragment);
+            }
+            if(!memo.getAsString("MemoFeel").equals("")){
+                String fNum = memo.getAsString("MemoFeel").substring(0,2);
+                switch (fNum){
+                    case "f1" : fIcon.setImageResource(R.drawable.f1_selected);
+                        break;
+                    case "f2" : fIcon.setImageResource(R.drawable.f2_selected);
+                        break;
+                    case "f3" : fIcon.setImageResource(R.drawable.f3_selected);
+                        break;
+                    case "f4" : fIcon.setImageResource(R.drawable.f4_selected);
+                        break;
+                    case "f5" : fIcon.setImageResource(R.drawable.f5_selected);
+                        break;
+                }
+            }
+            if(!memo.getAsString("MemoTag").equals("")){
+                tagImg.setImageResource(R.drawable.hashtag);
+                tag.setText(memo.getAsString("MemoTag"));
             }
         }
     }
