@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity
     //-------------------------------
 
 
+    //------------이가빈------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -169,10 +170,8 @@ public class MainActivity extends AppCompatActivity
         searchView.setSubmitButtonEnabled(true);
         //입력 글자 색 변경
 //        SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(R.id.search_src_text);
-//        searchAutoComplete.setHintTextColor(Color.LTGRAY);
 //        searchAutoComplete.setTextColor(Color.BLACK);
 
-//        super.onCreateOptionsMenu(menu);
 
         //SearchView의 검색 이벤트
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -188,12 +187,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText.length()>0){
-                    ListView listView = (ListView)findViewById(R.id.listView);
                     DataList = handler.searchMemo(newText, memCode);
                     myAdapter = new MyAdapter(MainActivity.this, DataList);
                     listView.setAdapter(myAdapter);
                 } else {
-                    ListView listView = (ListView)findViewById(R.id.listView);
                     DataList = handler.select(date, memCode);
                     myAdapter = new MyAdapter(MainActivity.this, DataList);
                     listView.setAdapter(myAdapter);
@@ -203,4 +200,5 @@ public class MainActivity extends AppCompatActivity
         });
         return true;
     }
+    //-------------------------------
 }
