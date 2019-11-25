@@ -101,7 +101,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_marginLeft="20dp"
         android:orientation="vertical">
 
@@ -117,6 +117,7 @@
             android:id="@+id/tag"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:textSize="14dp"
             android:layout_toRightOf="@+id/hashtagImg"
             android:layout_marginRight="10dp"/>
 
