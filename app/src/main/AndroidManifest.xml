@@ -38,7 +38,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".SigninActivity"
+        <activity android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>

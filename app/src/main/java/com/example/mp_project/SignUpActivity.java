@@ -23,10 +23,10 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 /**
- * SigninActivity
+ * SignUpActivity
  * @author 김희주
  */
-public class SigninActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
     DBHandler handler;
     InputMethodManager imm;
 
@@ -55,7 +55,7 @@ public class SigninActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_signup);
 
         handler = DBHandler.open(this);
         imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
@@ -236,7 +236,7 @@ public class SigninActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "회원가입에 성공하셨습니다.", Toast.LENGTH_SHORT).show();
 
                 //첫번째 화면으로 이동
-                startActivity(new Intent(SigninActivity.this, LoginActivity.class));
+                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -246,7 +246,7 @@ public class SigninActivity extends AppCompatActivity {
     //물리적 뒤로가기 버튼 메소드
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(SigninActivity.this,LoginActivity.class));
+        startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
         finish();
     }
 
