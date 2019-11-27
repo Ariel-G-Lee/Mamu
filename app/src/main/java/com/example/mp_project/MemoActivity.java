@@ -226,6 +226,7 @@ public class MemoActivity extends AppCompatActivity {
         finish();
     }
 
+    //날짜 포맷 바꾸는 메소드
     public String dateformat(String date){
         return date.substring(0,4)+"년 "+date.substring(4,6)+"월 "+date.substring(6)+"일";
     }

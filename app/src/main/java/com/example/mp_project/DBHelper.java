@@ -11,8 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "mamu.db";
     private static final int DB_VERSION = 1;
+
     private static final String MEMO_TABLE_NAME = "UserMemo";
     private static final String MEMBER_TABLE_NAME = "Member";
+
     static final String COLUMN_ID = "Memo_ID";
     static final String COLUMN_DATE = "CreationDate";
     static final String COLUMN_CONTENTS = "MemoContents";
@@ -43,8 +45,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + ");";
 
         db.execSQL(sql);
-
-        //db.execSQL("PRAGMA foreign_keys=ON;");
 
         sql = "CREATE TABLE " + MEMO_TABLE_NAME +" ("
                 + COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"

@@ -127,6 +127,7 @@ public class EditActivity extends AppCompatActivity {
             editTag.setText(memo.getAsString("MemoTag"));
             bytearrays = memo.getAsByteArray("Image");
             imgView.setImageBitmap(utils.ByteArraytoBitmap(bytearrays));
+
             if(!memo.getAsString("MemoFeel").equals("")){
                 int id = Integer.parseInt(memo.getAsString("MemoFeel").substring(2));
                 feelBtn = (RadioButton)findViewById(id);
@@ -259,6 +260,7 @@ public class EditActivity extends AppCompatActivity {
         finish();
     }
 
+    //날짜 포맷 바꾸는 메소드
     public String dateformat(String date){
         return date.substring(0,4)+"년 "+date.substring(4,6)+"월 "+date.substring(6)+"일";
     }

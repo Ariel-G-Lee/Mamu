@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-/*
+
+/**
  * MyAdapter
  * @author 허윤서, 강주혜, 김희주, 이가빈
  */

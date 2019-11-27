@@ -127,6 +127,7 @@ public class DBHandler {
     /**
      * 날짜정보를 이용해 해당 날짜의 메모를 전부 select
      * @param date (String)
+     * @param memCode (int)
      * @return ArrayList<ContentValues>
      */
     public ArrayList<ContentValues> select(String date, int memCode){
@@ -161,6 +162,7 @@ public class DBHandler {
     /**
      * key값을 이용해 해당 메모정보를 반환.
      * @param key (int)
+     * @param memCode (int)
      * @return ContentValues 메모 정보가 담겨져 있음.
      */
     public ContentValues selectOne(int key, int memCode) {
@@ -233,6 +235,12 @@ public class DBHandler {
 
     }
 
+    /**
+     * 메모 검색 메소드
+     * @param tag (String)
+     * @param memCode (int)
+     * @return ArrayList<ContentValues>
+     */
     public ArrayList<ContentValues> searchMemo(String tag, int memCode){
         ArrayList<ContentValues> list= new ArrayList<>();
 

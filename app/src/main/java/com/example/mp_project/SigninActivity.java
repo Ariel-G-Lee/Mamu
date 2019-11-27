@@ -6,14 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -290,7 +287,6 @@ public class SigninActivity extends AppCompatActivity {
         yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Toast.makeText(SigninActivity.this, "~~~~~~~~~~~~~~~~~~~", Toast.LENGTH_SHORT).show();
                 birthyear = newVal;
                 calendar.set(birthyear,birthmonth,birthdate);
                 datePicker.setMaxValue(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -301,7 +297,6 @@ public class SigninActivity extends AppCompatActivity {
         monthPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Toast.makeText(SigninActivity.this, "~~~~~~~~~~~~~~~~~~~", Toast.LENGTH_SHORT).show();
                 birthmonth = newVal - 1;
                 calendar.set(birthyear,birthmonth,birthdate);
                 datePicker.setMaxValue(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
