@@ -303,11 +303,20 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        //날짜 변경 리스너
+        datePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                birthdate = newVal;
+                calendar.set(birthyear,birthmonth,birthdate);
+            }
+        });
+
         //확인 버튼 클릭
         builder.setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String birth = birthyear + "." + (birthmonth+1) + "." + birthdate;
+                        String birth = calendar.get(calendar.YEAR) + "." + (calendar.get(calendar.MONTH) + 1) + "." +calendar.get(calendar.DATE);
                         TextBirth.setText(birth);
                     }
                 });
